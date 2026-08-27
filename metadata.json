@@ -1,0 +1,6 @@
+{
+  "name": "Punto Bocado Bar - Carta Digital",
+  "description": "Carta digital interactiva, moderna y mobile-first para Punto Bocado Bar con navegación fluida, buscador inteligente y pedidos por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
