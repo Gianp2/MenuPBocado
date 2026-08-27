@@ -1,9 +1,12 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useRef,
+  useState,
 } from 'react';
+
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { Category, MenuItem } from '../types';
 
@@ -31,7 +34,9 @@ import {
   auth,
 } from '../lib/firebase';
 
-import { onAuthStateChanged } from 'firebase/auth';
+/* ============================================================
+   TIPOS
+============================================================ */
 
 export interface RestaurantInfoType {
   name: string;
@@ -68,26 +73,12 @@ interface MenuContextType {
   updateItem: (id: string, updated: Partial<MenuItem>) => void;
   deleteItem: (id: string) => void;
   duplicateItem: (id: string) => MenuItem | null;
-  bulkUpdatePrices: (
-    percentage: number,
-    categoryId?: string
-  ) => void;
+  bulkUpdatePrices: (percentage: number, categoryId?: string) => void;
 
-  addCategory: (
-    category: Omit<Category, 'id'>
-  ) => Category;
-
-  updateCategory: (
-    id: string,
-    updated: Partial<Category>
-  ) => void;
-
+  addCategory: (category: Omit<Category, 'id'>) => Category;
+  updateCategory: (id: string, updated: Partial<Category>) => void;
   deleteCategory: (id: string) => void;
-
-  reorderCategories: (
-    fromIndex: number,
-    toIndex: number
-  ) => void;
+  reorderCategories: (fromIndex: number, toIndex: number) => void;
 
   setPastaSauces: (sauces: string[]) => void;
   addPastaSauce: (sauce: string) => void;
@@ -102,15 +93,15 @@ interface MenuContextType {
   ) => void;
 
   resetToDefaults: () => void;
-
   exportDataJSON: () => string;
-
-  importDataJSON: (
-    jsonString: string
-  ) => boolean;
+  importDataJSON: (jsonString: string) => boolean;
 
   syncToCloudNow: () => Promise<boolean>;
 }
+
+/* ============================================================
+   STORAGE
+============================================================ */
 
 const STORAGE_KEYS = {
   CATEGORIES: 'pb_menu_categories_v1',
@@ -121,210 +112,186 @@ const STORAGE_KEYS = {
   ADMIN_AUTH: 'pb_admin_auth_v1',
 };
 
-const MenuContext =
-  createContext<MenuContextType | undefined>(
-    undefined
-  );
+/* ============================================================
+   CONTEXT
+============================================================ */
+
+const MenuContext = createContext<
+  MenuContextType | undefined
+>(undefined);
+
+/* ============================================================
+   NORMALIZADORES
+============================================================ */
 
 const normalizeCategory = (
-  category: any
+  category: Partial<Category> & {
+    id?: unknown;
+    name?: unknown;
+    shortName?: unknown;
+    icon?: unknown;
+    subtitle?: unknown;
+    image?: unknown;
+    accentColor?: unknown;
+  }
 ): Category => ({
-  id: String(category?.id ?? ''),
-  name: String(category?.name ?? ''),
-  icon: String(category?.icon ?? ''),
+  id: String(category.id ?? ''),
+  name: String(category.name ?? ''),
+  icon: String(category.icon ?? ''),
   shortName: String(
-    category?.shortName ??
-      category?.name ??
+    category.shortName ??
+      category.name ??
       ''
   ),
-  subtitle: String(
-    category?.subtitle ?? ''
-  ),
-  image: category?.image,
+  subtitle: String(category.subtitle ?? ''),
+  image:
+    typeof category.image === 'string'
+      ? category.image
+      : undefined,
   accentColor:
-    category?.accentColor,
+    typeof category.accentColor === 'string'
+      ? category.accentColor
+      : undefined,
 });
 
 const normalizeMenuItem = (
-  item: any
+  item: Omit<Partial<MenuItem>, 'tags'> & {
+    id?: unknown;
+    name?: unknown;
+    categoryId?: unknown;
+    description?: unknown;
+    price?: unknown;
+    image?: unknown;
+    tags?: unknown;
+    servesCount?: unknown;
+    ingredients?: unknown;
+    options?: unknown;
+    variants?: unknown;
+  }
 ): MenuItem => ({
-  id: String(item?.id ?? ''),
-  name: String(item?.name ?? ''),
-  categoryId: String(
-    item?.categoryId ?? ''
-  ),
-  description: String(
-    item?.description ?? ''
-  ),
-  price: Number(item?.price ?? 0),
-  image: item?.image,
-  tags: Array.isArray(item?.tags)
-    ? item.tags
+  id: String(item.id ?? ''),
+  name: String(item.name ?? ''),
+  categoryId: String(item.categoryId ?? ''),
+  description: String(item.description ?? ''),
+  price: Number(item.price ?? 0),
+
+  image:
+    typeof item.image === 'string'
+      ? item.image
+      : undefined,
+
+  tags: Array.isArray(item.tags)
+    ? (item.tags as MenuItem['tags'])
     : undefined,
+
   servesCount:
-    item?.servesCount,
+    typeof item.servesCount === 'string'
+      ? item.servesCount
+      : undefined,
+
   ingredients: Array.isArray(
-    item?.ingredients
+    item.ingredients
   )
-    ? item.ingredients
+    ? (item.ingredients as string[])
     : undefined,
-  options: Array.isArray(
-    item?.options
-  )
+
+  options: Array.isArray(item.options)
     ? item.options
     : undefined,
-  variants: Array.isArray(
-    item?.variants
-  )
+
+  variants: Array.isArray(item.variants)
     ? item.variants
     : undefined,
 });
 
 const normalizeRestaurantInfo = (
-  data: any
-): RestaurantInfoType => ({
-  name: String(data?.name ?? ''),
-  tagline: String(
-    data?.tagline ?? ''
-  ),
-  description: String(
-    data?.description ?? ''
-  ),
-  address: String(
-    data?.address ?? ''
-  ),
-  phone: String(
-    data?.phone ?? ''
-  ),
-  whatsappNumber: String(
-    data?.whatsappNumber ?? ''
-  ),
-  instagram: String(
-    data?.instagram ?? ''
-  ),
-  hours: String(
-    data?.hours ?? ''
-  ),
-  wifi: {
-    network: String(
-      data?.wifi?.network ?? ''
+  data:
+    | Record<string, unknown>
+    | null
+    | undefined
+): RestaurantInfoType => {
+  const source = data ?? {};
+
+  const wifiSource =
+    typeof source.wifi === 'object' &&
+    source.wifi !== null
+      ? (source.wifi as Record<string, unknown>)
+      : {};
+
+  return {
+    name: String(source.name ?? ''),
+    tagline: String(source.tagline ?? ''),
+    description: String(
+      source.description ?? ''
     ),
-    password: String(
-      data?.wifi?.password ?? ''
+    address: String(source.address ?? ''),
+    phone: String(source.phone ?? ''),
+    whatsappNumber: String(
+      source.whatsappNumber ?? ''
     ),
-  },
-});
+    instagram: String(
+      source.instagram ?? ''
+    ),
+    hours: String(source.hours ?? ''),
+    wifi: {
+      network: String(
+        wifiSource.network ?? ''
+      ),
+      password: String(
+        wifiSource.password ?? ''
+      ),
+    },
+  };
+};
+
+const getInitialRestaurantInfo =
+  (): RestaurantInfoType => {
+    return normalizeRestaurantInfo(
+      INITIAL_RESTAURANT_INFO as unknown as Record<
+        string,
+        unknown
+      >
+    );
+  };
+
+/* ============================================================
+   PROVIDER
+============================================================ */
 
 export const MenuProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [categories, setCategories] =
-    useState<Category[]>(() => {
-      try {
-        const saved =
-          localStorage.getItem(
-            STORAGE_KEYS.CATEGORIES
-          );
-
-        if (saved) {
-          return JSON.parse(saved);
-        }
-
-        return INITIAL_CATEGORIES;
-      } catch {
-        return INITIAL_CATEGORIES;
-      }
-    });
+    useState<Category[]>(
+      INITIAL_CATEGORIES
+    );
 
   const [menuItems, setMenuItems] =
-    useState<MenuItem[]>(() => {
-      try {
-        const saved =
-          localStorage.getItem(
-            STORAGE_KEYS.MENU_ITEMS
-          );
+    useState<MenuItem[]>(
+      INITIAL_MENU_ITEMS
+    );
 
-        if (saved) {
-          return JSON.parse(saved);
-        }
-
-        return INITIAL_MENU_ITEMS;
-      } catch {
-        return INITIAL_MENU_ITEMS;
-      }
-    });
-
-  const [
-    restaurantInfo,
-    setRestaurantInfo,
-  ] =
-    useState<RestaurantInfoType>(() => {
-      try {
-        const saved =
-          localStorage.getItem(
-            STORAGE_KEYS.RESTAURANT_INFO
-          );
-
-        if (saved) {
-          return normalizeRestaurantInfo(
-            JSON.parse(saved)
-          );
-        }
-
-        return normalizeRestaurantInfo(
-          INITIAL_RESTAURANT_INFO
-        );
-      } catch {
-        return normalizeRestaurantInfo(
-          INITIAL_RESTAURANT_INFO
-        );
-      }
-    });
+  const [restaurantInfo, setRestaurantInfo] =
+    useState<RestaurantInfoType>(
+      getInitialRestaurantInfo()
+    );
 
   const [
     pastaSauces,
     setPastaSaucesState,
-  ] = useState<string[]>(() => {
-    try {
-      const saved =
-        localStorage.getItem(
-          STORAGE_KEYS.PASTA_SAUCES
-        );
-
-      if (saved) {
-        return JSON.parse(saved);
-      }
-
-      return INITIAL_PASTA_SAUCES;
-    } catch {
-      return INITIAL_PASTA_SAUCES;
-    }
-  });
+  ] = useState<string[]>(
+    INITIAL_PASTA_SAUCES
+  );
 
   const [
     guarniciones,
     setGuarnicionesState,
-  ] = useState<string[]>(() => {
-    try {
-      const saved =
-        localStorage.getItem(
-          STORAGE_KEYS.GUARNICIONES
-        );
+  ] = useState<string[]>(
+    INITIAL_GUARNICIONES
+  );
 
-      if (saved) {
-        return JSON.parse(saved);
-      }
-
-      return INITIAL_GUARNICIONES;
-    } catch {
-      return INITIAL_GUARNICIONES;
-    }
-  });
-
-  const [
-    isAdminOpen,
-    setIsAdminOpen,
-  ] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] =
+    useState(false);
 
   const [
     isAdminLoggedIn,
@@ -346,6 +313,22 @@ export const MenuProvider: React.FC<{
     isFirebaseSyncing,
     setIsFirebaseSyncing,
   ] = useState(false);
+
+  const firebaseInitializedRef =
+    useRef(false);
+
+  const categoriesReceivedRef =
+    useRef(false);
+
+  const menuItemsReceivedRef =
+    useRef(false);
+
+  const restaurantReceivedRef =
+    useRef(false);
+
+  /* ============================================================
+     AUTH
+  ============================================================ */
 
   const setIsAdminLoggedIn = (
     logged: boolean
@@ -370,18 +353,14 @@ export const MenuProvider: React.FC<{
         auth,
         (user) => {
           if (user) {
-            setIsAdminLoggedInState(
-              true
-            );
+            setIsAdminLoggedInState(true);
 
             sessionStorage.setItem(
               STORAGE_KEYS.ADMIN_AUTH,
               'true'
             );
           } else {
-            setIsAdminLoggedInState(
-              false
-            );
+            setIsAdminLoggedInState(false);
 
             sessionStorage.removeItem(
               STORAGE_KEYS.ADMIN_AUTH
@@ -393,18 +372,17 @@ export const MenuProvider: React.FC<{
     return () => unsubscribe();
   }, []);
 
+  /* ============================================================
+     LOCAL STORAGE
+  ============================================================ */
+
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEYS.CATEGORIES,
         JSON.stringify(categories)
       );
-    } catch (error) {
-      console.error(
-        'Error guardando categorías:',
-        error
-      );
-    }
+    } catch {}
   }, [categories]);
 
   useEffect(() => {
@@ -413,28 +391,16 @@ export const MenuProvider: React.FC<{
         STORAGE_KEYS.MENU_ITEMS,
         JSON.stringify(menuItems)
       );
-    } catch (error) {
-      console.error(
-        'Error guardando platos:',
-        error
-      );
-    }
+    } catch {}
   }, [menuItems]);
 
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEYS.RESTAURANT_INFO,
-        JSON.stringify(
-          restaurantInfo
-        )
+        JSON.stringify(restaurantInfo)
       );
-    } catch (error) {
-      console.error(
-        'Error guardando información:',
-        error
-      );
-    }
+    } catch {}
   }, [restaurantInfo]);
 
   useEffect(() => {
@@ -443,12 +409,7 @@ export const MenuProvider: React.FC<{
         STORAGE_KEYS.PASTA_SAUCES,
         JSON.stringify(pastaSauces)
       );
-    } catch (error) {
-      console.error(
-        'Error guardando salsas:',
-        error
-      );
-    }
+    } catch {}
   }, [pastaSauces]);
 
   useEffect(() => {
@@ -457,13 +418,12 @@ export const MenuProvider: React.FC<{
         STORAGE_KEYS.GUARNICIONES,
         JSON.stringify(guarniciones)
       );
-    } catch (error) {
-      console.error(
-        'Error guardando guarniciones:',
-        error
-      );
-    }
+    } catch {}
   }, [guarniciones]);
+
+  /* ============================================================
+     FIREBASE - SUSCRIPCIONES
+  ============================================================ */
 
   useEffect(() => {
     let unsubscribeCategories:
@@ -478,109 +438,288 @@ export const MenuProvider: React.FC<{
       | (() => void)
       | undefined;
 
-    try {
-      unsubscribeCategories =
-        subscribeToCategories(
-          (firebaseCategories) => {
-            if (
-              firebaseCategories.length >
-              0
-            ) {
-              const normalized =
-                firebaseCategories.map(
-                  normalizeCategory
+    const initializeFirebase = () => {
+      try {
+        unsubscribeCategories =
+          subscribeToCategories(
+            (firebaseCategories) => {
+              categoriesReceivedRef.current =
+                true;
+
+              if (
+                firebaseCategories.length >
+                0
+              ) {
+                const normalized =
+                  firebaseCategories
+                    .filter(
+                      (
+                        category
+                      ) =>
+                        category.active !==
+                        false
+                    )
+                    .sort(
+                      (
+                        a,
+                        b
+                      ) =>
+                        Number(
+                          a.order ?? 9999
+                        ) -
+                        Number(
+                          b.order ?? 9999
+                        )
+                    )
+                    .map(
+                      (
+                        category
+                      ) =>
+                        normalizeCategory(
+                          category
+                        )
+                    );
+
+                setCategories(
+                  normalized
                 );
+              }
 
-              normalized.sort(
-                (a: any, b: any) =>
-                  Number(a.order ?? 0) -
-                  Number(b.order ?? 0)
+              setIsFirebaseConnected(
+                true
               );
 
-              setCategories(
-                normalized
-              );
+              if (
+                !firebaseInitializedRef.current
+              ) {
+                firebaseInitializedRef.current =
+                  true;
+              }
             }
+          );
 
-            setIsFirebaseConnected(
-              true
-            );
-          }
-        );
+        unsubscribeMenuItems =
+          subscribeToMenuItems(
+            (firebaseItems) => {
+              menuItemsReceivedRef.current =
+                true;
 
-      unsubscribeMenuItems =
-        subscribeToMenuItems(
-          (firebaseItems) => {
-            if (
-              firebaseItems.length > 0
-            ) {
-              const normalized =
-                firebaseItems.map(
-                  normalizeMenuItem
+              if (
+                firebaseItems.length >
+                0
+              ) {
+                const normalized =
+                  firebaseItems
+                    .filter(
+                      (
+                        item
+                      ) =>
+                        item.active !==
+                        false
+                    )
+                    .sort(
+                      (
+                        a,
+                        b
+                      ) =>
+                        Number(
+                          a.order ?? 9999
+                        ) -
+                        Number(
+                          b.order ?? 9999
+                        )
+                    )
+                    .map(
+                      (
+                        item
+                      ) =>
+                        normalizeMenuItem(
+                          item
+                        )
+                    );
+
+                setMenuItems(
+                  normalized
                 );
+              }
 
-              normalized.sort(
-                (a: any, b: any) =>
-                  Number(a.order ?? 0) -
-                  Number(b.order ?? 0)
-              );
-
-              setMenuItems(
-                normalized
+              setIsFirebaseConnected(
+                true
               );
             }
+          );
 
-            setIsFirebaseConnected(
-              true
-            );
-          }
-        );
+        unsubscribeRestaurant =
+          subscribeToRestaurantInfo(
+            (
+              firebaseRestaurant:
+                | Record<
+                    string,
+                    unknown
+                  >
+                | null
+            ) => {
+              restaurantReceivedRef.current =
+                true;
 
-      unsubscribeRestaurant =
-        subscribeToRestaurantInfo(
-          (
-            firebaseRestaurant: any
-          ) => {
-            if (
-              firebaseRestaurant
-            ) {
-              setRestaurantInfo(
-                normalizeRestaurantInfo(
-                  firebaseRestaurant
-                )
+              if (
+                firebaseRestaurant
+              ) {
+                setRestaurantInfo(
+                  normalizeRestaurantInfo(
+                    firebaseRestaurant
+                  )
+                );
+              }
+
+              setIsFirebaseConnected(
+                true
               );
             }
-
-            setIsFirebaseConnected(
-              true
-            );
-          }
+          );
+      } catch (error) {
+        console.error(
+          'Error inicializando Firebase:',
+          error
         );
-    } catch (error) {
-      console.error(
-        'Error inicializando Firebase:',
-        error
-      );
 
-      setIsFirebaseConnected(
-        false
-      );
-    }
-
-    return () => {
-      if (unsubscribeCategories) {
-        unsubscribeCategories();
-      }
-
-      if (unsubscribeMenuItems) {
-        unsubscribeMenuItems();
-      }
-
-      if (unsubscribeRestaurant) {
-        unsubscribeRestaurant();
+        setIsFirebaseConnected(
+          false
+        );
       }
     };
+
+    initializeFirebase();
+
+    return () => {
+      unsubscribeCategories?.();
+      unsubscribeMenuItems?.();
+      unsubscribeRestaurant?.();
+    };
   }, []);
+
+  /* ============================================================
+     SEED FIREBASE
+  ============================================================ */
+
+  useEffect(() => {
+    const seedIfFirebaseEmpty =
+      async () => {
+        const user =
+          auth.currentUser;
+
+        if (!user) {
+          return;
+        }
+
+        if (
+          !categoriesReceivedRef.current ||
+          !menuItemsReceivedRef.current
+        ) {
+          return;
+        }
+
+        try {
+          setIsFirebaseSyncing(
+            true
+          );
+
+          const {
+            getCategories,
+            getMenuItems,
+          } = await import(
+            '../lib/firebase'
+          );
+
+          const currentCategories =
+            await getCategories();
+
+          const currentMenuItems =
+            await getMenuItems();
+
+          if (
+            currentCategories.length ===
+            0
+          ) {
+            await saveCategoriesBatch(
+              INITIAL_CATEGORIES.map(
+                (
+                  category: Category,
+                  index: number
+                ) => ({
+                  ...category,
+                  id: category.id,
+                  order: index,
+                  active: true,
+                })
+              )
+            );
+          }
+
+          if (
+            currentMenuItems.length ===
+            0
+          ) {
+            await saveMenuItemsBatch(
+              INITIAL_MENU_ITEMS.map(
+                (
+                  item: MenuItem,
+                  index: number
+                ) => ({
+                  ...item,
+                  id: item.id,
+                  order: index,
+                  price:
+                    Number(
+                      item.price
+                    ) || 0,
+                  active: true,
+                })
+              )
+            );
+          }
+
+          if (
+            !restaurantReceivedRef.current
+          ) {
+            await saveRestaurantInfo(
+              getInitialRestaurantInfo()
+            );
+          }
+
+          setIsFirebaseConnected(
+            true
+          );
+        } catch (error) {
+          console.error(
+            'Error verificando datos iniciales:',
+            error
+          );
+        } finally {
+          setIsFirebaseSyncing(
+            false
+          );
+        }
+      };
+
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        async (user) => {
+          if (!user) {
+            return;
+          }
+
+          await seedIfFirebaseEmpty();
+        }
+      );
+
+    return () => unsubscribe();
+  }, []);
+
+  /* ============================================================
+     PLATOS
+  ============================================================ */
 
   const addItem = (
     itemData: Omit<MenuItem, 'id'>
@@ -595,12 +734,16 @@ export const MenuProvider: React.FC<{
       id: newId,
     };
 
-    setMenuItems((prev) => [
-      newItem,
-      ...prev,
-    ]);
+    setMenuItems(
+      (prev) => [
+        newItem,
+        ...prev,
+      ]
+    );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     const {
       id: _id,
@@ -637,18 +780,22 @@ export const MenuProvider: React.FC<{
     id: string,
     updated: Partial<MenuItem>
   ) => {
-    setMenuItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              ...updated,
-            }
-          : item
-      )
+    setMenuItems(
+      (prev) =>
+        prev.map(
+          (item: MenuItem) =>
+            item.id === id
+              ? {
+                  ...item,
+                  ...updated,
+                }
+              : item
+        )
     );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     updateMenuItemInFirestore(
       id,
@@ -677,16 +824,21 @@ export const MenuProvider: React.FC<{
   const deleteItem = (
     id: string
   ) => {
-    setMenuItems((prev) =>
-      prev.filter(
-        (item) =>
-          item.id !== id
-      )
+    setMenuItems(
+      (prev) =>
+        prev.filter(
+          (item: MenuItem) =>
+            item.id !== id
+        )
     );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
-    deleteMenuItemFromFirestore(id)
+    deleteMenuItemFromFirestore(
+      id
+    )
       .then((success) => {
         if (success) {
           setIsFirebaseConnected(
@@ -712,7 +864,8 @@ export const MenuProvider: React.FC<{
   ): MenuItem | null => {
     const original =
       menuItems.find(
-        (item) => item.id === id
+        (item: MenuItem) =>
+          item.id === id
       );
 
     if (!original) {
@@ -729,12 +882,16 @@ export const MenuProvider: React.FC<{
         `${original.name} (Copia)`,
     };
 
-    setMenuItems((prev) => [
-      duplicated,
-      ...prev,
-    ]);
+    setMenuItems(
+      (prev) => [
+        duplicated,
+        ...prev,
+      ]
+    );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     const {
       id: _id,
@@ -775,52 +932,56 @@ export const MenuProvider: React.FC<{
       1 + percentage / 100;
 
     const updatedItems =
-      menuItems.map((item) => {
-        if (
-          categoryId &&
-          item.categoryId !==
-            categoryId
-        ) {
-          return item;
+      menuItems.map(
+        (item: MenuItem) => {
+          if (
+            categoryId &&
+            item.categoryId !==
+              categoryId
+          ) {
+            return item;
+          }
+
+          const newPrice =
+            Math.round(
+              (item.price *
+                factor) /
+                50
+            ) * 50;
+
+          const updatedVariants =
+            item.variants?.map(
+              (variant) => ({
+                ...variant,
+                price:
+                  Math.round(
+                    (variant.price *
+                      factor) /
+                      50
+                  ) * 50,
+              })
+            );
+
+          return {
+            ...item,
+            price: newPrice,
+            variants:
+              updatedVariants,
+          };
         }
-
-        const newPrice =
-          Math.round(
-            (item.price *
-              factor) /
-              50
-          ) * 50;
-
-        const updatedVariants =
-          item.variants?.map(
-            (variant) => ({
-              ...variant,
-              price:
-                Math.round(
-                  (variant.price *
-                    factor) /
-                    50
-                ) * 50,
-            })
-          );
-
-        return {
-          ...item,
-          price: newPrice,
-          variants:
-            updatedVariants,
-        };
-      });
+      );
 
     setMenuItems(
       updatedItems
     );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     const itemsToUpdate =
       updatedItems.filter(
-        (item) => {
+        (item: MenuItem) => {
           if (!categoryId) {
             return true;
           }
@@ -834,7 +995,7 @@ export const MenuProvider: React.FC<{
 
     Promise.all(
       itemsToUpdate.map(
-        (item) =>
+        (item: MenuItem) =>
           updateMenuItemInFirestore(
             item.id,
             {
@@ -863,6 +1024,10 @@ export const MenuProvider: React.FC<{
       });
   };
 
+  /* ============================================================
+     CATEGORÍAS
+  ============================================================ */
+
   const addCategory = (
     categoryData: Omit<
       Category,
@@ -879,12 +1044,16 @@ export const MenuProvider: React.FC<{
       id: newId,
     };
 
-    setCategories((prev) => [
-      ...prev,
-      newCategory,
-    ]);
+    setCategories(
+      (prev) => [
+        ...prev,
+        newCategory,
+      ]
+    );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     const {
       id: _id,
@@ -921,18 +1090,24 @@ export const MenuProvider: React.FC<{
     id: string,
     updated: Partial<Category>
   ) => {
-    setCategories((prev) =>
-      prev.map((category) =>
-        category.id === id
-          ? {
-              ...category,
-              ...updated,
-            }
-          : category
-      )
+    setCategories(
+      (prev) =>
+        prev.map(
+          (
+            category: Category
+          ) =>
+            category.id === id
+              ? {
+                  ...category,
+                  ...updated,
+                }
+              : category
+        )
     );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     updateCategoryInFirestore(
       id,
@@ -961,34 +1136,41 @@ export const MenuProvider: React.FC<{
   const deleteCategory = (
     id: string
   ) => {
-    setCategories((prev) =>
-      prev.filter(
-        (category) =>
-          category.id !== id
-      )
-    );
-
     const itemsToDelete =
       menuItems.filter(
-        (item) =>
+        (item: MenuItem) =>
           item.categoryId === id
       );
 
-    setMenuItems((prev) =>
-      prev.filter(
-        (item) =>
-          item.categoryId !== id
-      )
+    setCategories(
+      (prev) =>
+        prev.filter(
+          (
+            category: Category
+          ) =>
+            category.id !== id
+        )
     );
 
-    setIsFirebaseSyncing(true);
+    setMenuItems(
+      (prev) =>
+        prev.filter(
+          (item: MenuItem) =>
+            item.categoryId !== id
+        )
+    );
+
+    setIsFirebaseSyncing(
+      true
+    );
 
     Promise.all([
       deleteCategoryFromFirestore(
         id
       ),
+
       ...itemsToDelete.map(
-        (item) =>
+        (item: MenuItem) =>
           deleteMenuItemFromFirestore(
             item.id
           )
@@ -1049,11 +1231,16 @@ export const MenuProvider: React.FC<{
 
     setCategories(copy);
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     Promise.all(
       copy.map(
-        (category, index) =>
+        (
+          category: Category,
+          index: number
+        ) =>
           updateCategoryInFirestore(
             category.id,
             {
@@ -1079,6 +1266,10 @@ export const MenuProvider: React.FC<{
         );
       });
   };
+
+  /* ============================================================
+     SALSAS
+  ============================================================ */
 
   const setPastaSauces = (
     sauces: string[]
@@ -1106,10 +1297,17 @@ export const MenuProvider: React.FC<{
   ) => {
     setPastaSauces(
       pastaSauces.filter(
-        (_, i) => i !== index
+        (
+          _: string,
+          i: number
+        ) => i !== index
       )
     );
   };
+
+  /* ============================================================
+     GUARNICIONES
+  ============================================================ */
 
   const setGuarniciones = (
     sides: string[]
@@ -1137,10 +1335,17 @@ export const MenuProvider: React.FC<{
   ) => {
     setGuarniciones(
       guarniciones.filter(
-        (_, i) => i !== index
+        (
+          _: string,
+          i: number
+        ) => i !== index
       )
     );
   };
+
+  /* ============================================================
+     RESTAURANTE
+  ============================================================ */
 
   const updateRestaurantInfo = (
     info: Partial<RestaurantInfoType>
@@ -1149,6 +1354,7 @@ export const MenuProvider: React.FC<{
       {
         ...restaurantInfo,
         ...info,
+
         wifi: info.wifi
           ? {
               ...restaurantInfo.wifi,
@@ -1157,13 +1363,20 @@ export const MenuProvider: React.FC<{
           : restaurantInfo.wifi,
       };
 
-    setRestaurantInfo(next);
+    setRestaurantInfo(
+      next
+    );
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
-    saveRestaurantInfo({
-      ...next,
-    })
+    saveRestaurantInfo(
+      next as unknown as Record<
+        string,
+        unknown
+      >
+    )
       .then((success) => {
         if (success) {
           setIsFirebaseConnected(
@@ -1173,7 +1386,7 @@ export const MenuProvider: React.FC<{
       })
       .catch((error) => {
         console.error(
-          'Error guardando información:',
+          'Error guardando información del restaurante:',
           error
         );
       })
@@ -1183,6 +1396,10 @@ export const MenuProvider: React.FC<{
         );
       });
   };
+
+  /* ============================================================
+     RESET
+  ============================================================ */
 
   const resetToDefaults = () => {
     setCategories(
@@ -1194,9 +1411,7 @@ export const MenuProvider: React.FC<{
     );
 
     setRestaurantInfo(
-      normalizeRestaurantInfo(
-        INITIAL_RESTAURANT_INFO
-      )
+      getInitialRestaurantInfo()
     );
 
     setPastaSaucesState(
@@ -1227,25 +1442,26 @@ export const MenuProvider: React.FC<{
       localStorage.removeItem(
         STORAGE_KEYS.GUARNICIONES
       );
-    } catch (error) {
-      console.error(
-        'Error limpiando localStorage:',
-        error
-      );
-    }
+    } catch {}
 
     if (!auth.currentUser) {
       return;
     }
 
-    setIsFirebaseSyncing(true);
+    setIsFirebaseSyncing(
+      true
+    );
 
     Promise.all([
       saveCategoriesBatch(
         INITIAL_CATEGORIES.map(
-          (category) => ({
+          (
+            category: Category,
+            index: number
+          ) => ({
             ...category,
             id: category.id,
+            order: index,
             active: true,
           })
         )
@@ -1253,20 +1469,28 @@ export const MenuProvider: React.FC<{
 
       saveMenuItemsBatch(
         INITIAL_MENU_ITEMS.map(
-          (item) => ({
+          (
+            item: MenuItem,
+            index: number
+          ) => ({
             ...item,
             id: item.id,
+            order: index,
             price:
-              Number(item.price) ||
-              0,
+              Number(
+                item.price
+              ) || 0,
             active: true,
           })
         )
       ),
 
-      saveRestaurantInfo({
-        ...INITIAL_RESTAURANT_INFO,
-      }),
+      saveRestaurantInfo(
+        getInitialRestaurantInfo() as unknown as Record<
+          string,
+          unknown
+        >
+      ),
     ])
       .then(() => {
         setIsFirebaseConnected(
@@ -1290,33 +1514,45 @@ export const MenuProvider: React.FC<{
       });
   };
 
-  const exportDataJSON = (): string => {
-    const data = {
-      version: '2.0',
-      exportedAt:
-        new Date().toISOString(),
-      restaurantInfo,
-      categories,
-      menuItems,
-      pastaSauces,
-      guarniciones,
+  /* ============================================================
+     EXPORTAR
+  ============================================================ */
+
+  const exportDataJSON =
+    (): string => {
+      return JSON.stringify(
+        {
+          version: '2.0',
+          exportedAt:
+            new Date().toISOString(),
+          restaurantInfo,
+          categories,
+          menuItems,
+          pastaSauces,
+          guarniciones,
+        },
+        null,
+        2
+      );
     };
 
-    return JSON.stringify(
-      data,
-      null,
-      2
-    );
-  };
+  /* ============================================================
+     IMPORTAR
+  ============================================================ */
 
   const importDataJSON = (
     jsonString: string
   ): boolean => {
     try {
-      const data =
-        JSON.parse(
-          jsonString
-        );
+      const data: {
+        categories?: unknown[];
+        menuItems?: unknown[];
+        restaurantInfo?: unknown;
+        pastaSauces?: unknown;
+        guarniciones?: unknown;
+      } = JSON.parse(
+        jsonString
+      );
 
       if (
         !Array.isArray(
@@ -1331,24 +1567,45 @@ export const MenuProvider: React.FC<{
         );
       }
 
-      setCategories(
+      const normalizedCategories =
         data.categories.map(
-          normalizeCategory
-        )
+          (
+            category: unknown
+          ) =>
+            normalizeCategory(
+              category as Partial<Category>
+            )
+        );
+
+      const normalizedMenuItems =
+        data.menuItems.map(
+          (
+            item: unknown
+          ) =>
+            normalizeMenuItem(
+              item as Partial<MenuItem>
+            )
+        );
+
+      setCategories(
+        normalizedCategories
       );
 
       setMenuItems(
-        data.menuItems.map(
-          normalizeMenuItem
-        )
+        normalizedMenuItems
       );
 
       if (
-        data.restaurantInfo
+        data.restaurantInfo &&
+        typeof data.restaurantInfo ===
+          'object'
       ) {
         setRestaurantInfo(
           normalizeRestaurantInfo(
-            data.restaurantInfo
+            data.restaurantInfo as Record<
+              string,
+              unknown
+            >
           )
         );
       }
@@ -1359,7 +1616,13 @@ export const MenuProvider: React.FC<{
         )
       ) {
         setPastaSaucesState(
-          data.pastaSauces
+          data.pastaSauces.filter(
+            (
+              value: unknown
+            ): value is string =>
+              typeof value ===
+              'string'
+          )
         );
       }
 
@@ -1369,15 +1632,17 @@ export const MenuProvider: React.FC<{
         )
       ) {
         setGuarnicionesState(
-          data.guarniciones
+          data.guarniciones.filter(
+            (
+              value: unknown
+            ): value is string =>
+              typeof value ===
+              'string'
+          )
         );
       }
 
       if (!auth.currentUser) {
-        console.warn(
-          'Importación local realizada. No se sincronizó con Firebase porque no hay un administrador autenticado.'
-        );
-
         return true;
       }
 
@@ -1387,35 +1652,49 @@ export const MenuProvider: React.FC<{
 
       Promise.all([
         saveCategoriesBatch(
-          data.categories.map(
-            (category: any) => ({
+          normalizedCategories.map(
+            (
+              category: Category,
+              index: number
+            ) => ({
               ...category,
-              id: String(
-                category.id
-              ),
+              id: category.id,
+              order: index,
+              active: true,
             })
           )
         ),
 
         saveMenuItemsBatch(
-          data.menuItems.map(
-            (item: any) => ({
+          normalizedMenuItems.map(
+            (
+              item: MenuItem,
+              index: number
+            ) => ({
               ...item,
-              id: String(
-                item.id
-              ),
+              id: item.id,
+              order: index,
               price:
                 Number(
                   item.price
                 ) || 0,
+              active: true,
             })
           )
         ),
 
         data.restaurantInfo
-          ? saveRestaurantInfo({
-              ...data.restaurantInfo,
-            })
+          ? saveRestaurantInfo(
+              normalizeRestaurantInfo(
+                data.restaurantInfo as Record<
+                  string,
+                  unknown
+                >
+              ) as unknown as Record<
+                string,
+                unknown
+              >
+            )
           : Promise.resolve(
               true
             ),
@@ -1452,6 +1731,10 @@ export const MenuProvider: React.FC<{
     }
   };
 
+  /* ============================================================
+     SINCRONIZAR
+  ============================================================ */
+
   const syncToCloudNow =
     async (): Promise<boolean> => {
       if (!auth.currentUser) {
@@ -1473,9 +1756,13 @@ export const MenuProvider: React.FC<{
 
         await saveCategoriesBatch(
           categories.map(
-            (category) => ({
+            (
+              category: Category,
+              index: number
+            ) => ({
               ...category,
               id: category.id,
+              order: index,
               active: true,
             })
           )
@@ -1483,20 +1770,28 @@ export const MenuProvider: React.FC<{
 
         await saveMenuItemsBatch(
           menuItems.map(
-            (item) => ({
+            (
+              item: MenuItem,
+              index: number
+            ) => ({
               ...item,
               id: item.id,
+              order: index,
               price:
-                Number(item.price) ||
-                0,
+                Number(
+                  item.price
+                ) || 0,
               active: true,
             })
           )
         );
 
-        await saveRestaurantInfo({
-          ...restaurantInfo,
-        });
+        await saveRestaurantInfo(
+          restaurantInfo as unknown as Record<
+            string,
+            unknown
+          >
+        );
 
         setIsFirebaseConnected(
           true
@@ -1520,6 +1815,10 @@ export const MenuProvider: React.FC<{
         );
       }
     };
+
+  /* ============================================================
+     PROVIDER
+  ============================================================ */
 
   return (
     <MenuContext.Provider
@@ -1572,6 +1871,10 @@ export const MenuProvider: React.FC<{
     </MenuContext.Provider>
   );
 };
+
+/* ============================================================
+   HOOK
+============================================================ */
 
 export const useMenu = () => {
   const context =

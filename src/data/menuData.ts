@@ -2,13 +2,23 @@ import { Category, MenuItem } from '../types';
 
 export const RESTAURANT_INFO = {
   name: 'Punto Bocado',
+
   tagline: 'Desayunos • Viandas • Comidas • Café',
-  description: 'Descubrí nuestra carta digital con platos elaborados artesanalmente, viandas del día, comidas caseras, desayunos y especialidades de café.',
+
+  description:
+    'Descubrí nuestra carta digital con platos elaborados artesanalmente, viandas del día, comidas caseras, desayunos y especialidades de café.',
+
   address: 'San Martín, 1756. Armstrong.',
-  phone: '+54 9 11 5555-0199',
-  whatsappNumber: '3471670003', // Clean for wa.me link
+
+  phone: '3471 670003',
+
+  whatsappNumber: '347 1670003',
+
   instagram: '@puntobocado.bar',
-  hours: 'Mar a Dom de 08:00 a 01:00 hs',
+
+  hours:
+    'Lunes a sábado: 07:30 a 13:30 hs y 17:00 a 23:30 hs. Domingos: 18:30 a 23:30 hs.',
+
   wifi: {
     network: 'Personal-228',
     password: 'T5Tw5gbcWg',
@@ -21,7 +31,8 @@ export const CATEGORIES: Category[] = [
     name: 'Pastas Caseras',
     shortName: 'Pastas',
     icon: 'UtensilsCrossed',
-    subtitle: 'Elaboradas artesanalmente con sémola seleccionada y salsas de cocción lenta',
+    subtitle:
+      'Elaboradas artesanalmente con sémola seleccionada y salsas de cocción lenta',
     accentColor: 'from-amber-600/30 to-orange-600/30',
   },
   {
@@ -29,7 +40,8 @@ export const CATEGORIES: Category[] = [
     name: 'Tartas Artesanales',
     shortName: 'Tartas',
     icon: 'PieChart',
-    subtitle: 'Masa casera crocante y rellenos abundantes horneados al momento',
+    subtitle:
+      'Masa casera crocante y rellenos abundantes horneados al momento',
     accentColor: 'from-amber-700/30 to-yellow-600/30',
   },
   {
@@ -37,7 +49,8 @@ export const CATEGORIES: Category[] = [
     name: 'Empanadas al Horno',
     shortName: 'Empanadas',
     icon: 'Layers',
-    subtitle: 'Repulgue tradicional, masa hojaldrada y rellenos jugosos',
+    subtitle:
+      'Repulgue tradicional, masa hojaldrada y rellenos jugosos',
     accentColor: 'from-orange-700/30 to-red-600/30',
   },
   {
@@ -45,7 +58,8 @@ export const CATEGORIES: Category[] = [
     name: 'Menú al Plato & Minutas',
     shortName: 'Al Plato',
     icon: 'Flame',
-    subtitle: 'Milanesas supremas, lomos tiernos y guarniciones a tu elección',
+    subtitle:
+      'Milanesas supremas, lomos tiernos y guarniciones a tu elección',
     accentColor: 'from-red-600/30 to-amber-700/30',
   },
   {
@@ -53,7 +67,8 @@ export const CATEGORIES: Category[] = [
     name: 'Sándwiches de Autor',
     shortName: 'Sándwiches',
     icon: 'Sandwich',
-    subtitle: 'Pan horneado diario, carnes seleccionadas y aderezos especiales',
+    subtitle:
+      'Pan horneado diario, carnes seleccionadas y aderezos especiales',
     accentColor: 'from-amber-600/30 to-emerald-700/30',
   },
   {
@@ -61,7 +76,8 @@ export const CATEGORIES: Category[] = [
     name: 'Sándwiches de Miga & Tostados',
     shortName: 'De Miga',
     icon: 'Square',
-    subtitle: 'Triples frescos, suaves y los clásicos Carlitos tostados',
+    subtitle:
+      'Triples frescos, suaves y los clásicos Carlitos tostados',
     accentColor: 'from-yellow-600/30 to-amber-800/30',
   },
   {
@@ -69,7 +85,8 @@ export const CATEGORIES: Category[] = [
     name: 'Hamburguesas Smash & Caseras',
     shortName: 'Burgers',
     icon: 'CircleDot',
-    subtitle: 'Medallón 100% blend de carne, queso fundido y pan brioche tostado',
+    subtitle:
+      'Medallón 100% blend de carne, queso fundido y pan brioche tostado',
     accentColor: 'from-amber-500/30 to-red-700/30',
   },
   {
@@ -77,7 +94,8 @@ export const CATEGORIES: Category[] = [
     name: 'Panchos & Extras',
     shortName: 'Panchos & Extras',
     icon: 'Sparkles',
-    subtitle: 'Papas con cheddar, salchipapas, cazuelas calientes y appetizers',
+    subtitle:
+      'Papas con cheddar, salchipapas, cazuelas calientes y appetizers',
     accentColor: 'from-yellow-600/30 to-orange-700/30',
   },
   {
@@ -85,7 +103,8 @@ export const CATEGORIES: Category[] = [
     name: 'Tablas de Fiambres',
     shortName: 'Fiambres',
     icon: 'Disc',
-    subtitle: 'Embutidos estacionados, quesos de campo y aceitunas marinadas',
+    subtitle:
+      'Embutidos estacionados, quesos de campo y aceitunas marinadas',
     accentColor: 'from-red-800/30 to-amber-900/30',
   },
   {
@@ -93,7 +112,8 @@ export const CATEGORIES: Category[] = [
     name: 'Picadas para Compartir',
     shortName: 'Picadas',
     icon: 'Wine',
-    subtitle: 'La combinación perfecta de sabores calientes y fríos para disfrutar con amigos',
+    subtitle:
+      'La combinación perfecta de sabores calientes y fríos para disfrutar con amigos',
     accentColor: 'from-amber-600/40 to-yellow-800/40',
   },
   {
@@ -101,7 +121,8 @@ export const CATEGORIES: Category[] = [
     name: 'Pizzas a la Piedra',
     shortName: 'Pizzas',
     icon: 'Pizza',
-    subtitle: 'Masa madre crocante con fermentación lenta y abundante mozzarella',
+    subtitle:
+      'Masa madre crocante con fermentación lenta y abundante mozzarella',
     accentColor: 'from-red-700/30 to-orange-600/30',
   },
 ];
@@ -128,15 +149,24 @@ export const GUARNICIONES = [
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
-  // --- PASTAS ---
+  // =========================================================
+  // PASTAS
+  // =========================================================
+
   {
     id: 'pasta-tallarines',
     name: 'Tallarines Caseros al Huevo',
     categoryId: 'pastas',
-    description: 'Tallarines frescos cortados a cuchillo, elaborados con sémola y huevos de campo. Incluye salsa a elección.',
+    description:
+      'Tallarines frescos cortados a cuchillo, elaborados con sémola y huevos de campo. Incluye salsa a elección.',
     price: 8900,
     tags: ['destacado'],
-    ingredients: ['Sémola fina', 'Huevos de campo', 'Salsa a elección', 'Queso rallado'],
+    ingredients: [
+      'Sémola fina',
+      'Huevos de campo',
+      'Salsa a elección',
+      'Queso rallado',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -145,14 +175,21 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'pasta-noquis',
     name: 'Ñoquis de Papa Artesanales',
     categoryId: 'pastas',
-    description: 'Ñoquis livianos y suaves hechos con papa natural seleccionada. Se sirven bien calientes con tu salsa preferida.',
+    description:
+      'Ñoquis livianos y suaves hechos con papa natural seleccionada. Se sirven bien calientes con tu salsa preferida.',
     price: 9200,
     tags: ['recomendado'],
-    ingredients: ['Papa natural', 'Harina 0000', 'Nuez moscada', 'Salsa a elección'],
+    ingredients: [
+      'Papa natural',
+      'Harina 0000',
+      'Nuez moscada',
+      'Salsa a elección',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -161,14 +198,21 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'pasta-ravioles',
     name: 'Ravioles Caseros',
     categoryId: 'pastas',
-    description: 'Ravioles rellenos con espinaca fresca, carne braseada y queso parmesano, acompañados de salsa a elección.',
+    description:
+      'Ravioles rellenos con espinaca fresca, carne braseada y queso parmesano, acompañados de salsa a elección.',
     price: 9800,
     tags: ['destacado'],
-    ingredients: ['Masa casera', 'Relleno de carne y verdura', 'Parmesano', 'Salsa a elección'],
+    ingredients: [
+      'Masa casera',
+      'Relleno de carne y verdura',
+      'Parmesano',
+      'Salsa a elección',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -177,14 +221,22 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'pasta-canelones',
     name: 'Canelones Gratinados',
     categoryId: 'pastas',
-    description: 'Panqueques caseros rellenos de ricota, espinaca y jamón, cubiertos con salsa y abundante queso gratinado al horno.',
+    description:
+      'Panqueques caseros rellenos de ricota, espinaca y jamón, cubiertos con salsa y abundante queso gratinado al horno.',
     price: 10200,
     tags: ['especial'],
-    ingredients: ['Panqueque casero', 'Espinaca', 'Ricota', 'Gratinado al horno', 'Salsa a elección'],
+    ingredients: [
+      'Panqueque casero',
+      'Espinaca',
+      'Ricota',
+      'Gratinado al horno',
+      'Salsa a elección',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -193,14 +245,21 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'pasta-sorrentinos-calabaza',
     name: 'Sorrentinos de Calabaza, Ricota y Nuez',
     categoryId: 'pastas',
-    description: 'Grandes sorrentinos rellenos con suave puré de calabaza asada, ricota cremosa y trocitos de nuez tostada.',
+    description:
+      'Grandes sorrentinos rellenos con suave puré de calabaza asada, ricota cremosa y trocitos de nuez tostada.',
     price: 10900,
     tags: ['veggie', 'destacado'],
-    ingredients: ['Calabaza asada', 'Ricota fresca', 'Nueces tostadas', 'Salsa a elección'],
+    ingredients: [
+      'Calabaza asada',
+      'Ricota fresca',
+      'Nueces tostadas',
+      'Salsa a elección',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -209,14 +268,20 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'pasta-sorrentinos-jamon-queso',
     name: 'Sorrentinos de Jamón y Queso',
     categoryId: 'pastas',
-    description: 'Sorrentinos gigantes con abundante relleno de jamón cocido seleccionado y muzzarella fundida.',
+    description:
+      'Sorrentinos gigantes con abundante relleno de jamón cocido seleccionado y muzzarella fundida.',
     price: 10900,
     tags: ['recomendado'],
-    ingredients: ['Jamón cocido de primera', 'Mozzarella fundida', 'Salsa a elección'],
+    ingredients: [
+      'Jamón cocido de primera',
+      'Mozzarella fundida',
+      'Salsa a elección',
+    ],
     options: [
       {
         title: 'Salsa a elección',
@@ -226,382 +291,176 @@ export const MENU_ITEMS: MenuItem[] = [
     ],
   },
 
-  // --- TARTAS ---
+  // =========================================================
+  // TARTAS
+  // =========================================================
+
   {
     id: 'tarta-jamon-queso',
     name: 'Tarta de Jamón y Queso',
     categoryId: 'tartas',
-    description: 'Tarta individual con masa hojaldrada crujiente, abundante jamón cocido, queso dambo y suave ligadura de crema y huevo.',
+    description:
+      'Tarta individual con masa hojaldrada crujiente, abundante jamón cocido, queso dambo y suave ligadura de crema y huevo.',
     price: 7400,
     tags: ['recomendado'],
-    ingredients: ['Masa hojaldrada', 'Jamón cocido', 'Queso dambo fundido', 'Crema y huevo'],
+    ingredients: [
+      'Masa hojaldrada',
+      'Jamón cocido',
+      'Queso dambo fundido',
+      'Crema y huevo',
+    ],
   },
+
   {
     id: 'tarta-pollo',
     name: 'Tarta de Pollo',
     categoryId: 'tartas',
-    description: 'Pollo desmenuzado y salteado con cebollas caramelizadas, morrones asados, especias y queso.',
+    description:
+      'Pollo desmenuzado y salteado con cebollas caramelizadas, morrones asados, especias y queso.',
     price: 7600,
     tags: ['destacado'],
-    ingredients: ['Pollo desmenuzado', 'Cebolla salteada', 'Pimientos morrones', 'Queso fundido'],
+    ingredients: [
+      'Pollo desmenuzado',
+      'Cebolla salteada',
+      'Pimientos morrones',
+      'Queso fundido',
+    ],
   },
+
   {
     id: 'tarta-atun',
     name: 'Tarta de Atún',
     categoryId: 'tartas',
-    description: 'Clásica tarta con lomitos de atún, cebolla confitada, morrón rojo, aceitunas y un toque de pimentón dulce.',
+    description:
+      'Clásica tarta con lomitos de atún, cebolla confitada, morrón rojo, aceitunas y un toque de pimentón dulce.',
     price: 7900,
     tags: ['especial'],
-    ingredients: ['Lomitos de atún', 'Cebolla confitada', 'Morrones', 'Huevo duro', 'Aceitunas'],
+    ingredients: [
+      'Lomitos de atún',
+      'Cebolla confitada',
+      'Morrones',
+      'Huevo duro',
+      'Aceitunas',
+    ],
   },
+
   {
     id: 'tarta-verdura',
     name: 'Tarta de Verdura & Ricota',
     categoryId: 'tartas',
-    description: 'Hojas de espinaca y acelga fresca salteadas, mezcladas con ricota cremosa y coronadas con parmesano rallado.',
+    description:
+      'Hojas de espinaca y acelga fresca salteadas, mezcladas con ricota cremosa y coronadas con parmesano rallado.',
     price: 7200,
     tags: ['veggie'],
-    ingredients: ['Espinaca fresca', 'Ricota', 'Queso parmesano', 'Masa crocante'],
+    ingredients: [
+      'Espinaca fresca',
+      'Ricota',
+      'Queso parmesano',
+      'Masa crocante',
+    ],
   },
 
-  // --- EMPANADAS ---
+  // =========================================================
+  // EMPANADAS
+  // =========================================================
+
   {
     id: 'empanada-carne-salada',
     name: 'Empanada de Carne Salada',
     categoryId: 'empanadas',
-    description: 'Carne de ternera cortada a cuchillo, cebolla de verdeo, pimiento, huevo duro y comino norteño.',
+    description:
+      'Carne de ternera cortada a cuchillo, cebolla de verdeo, pimiento, huevo duro y comino norteño.',
     price: 1800,
     tags: ['destacado'],
-    ingredients: ['Carne a cuchillo', 'Cebolla de verdeo', 'Huevo duro', 'Masa criolla'],
+    ingredients: [
+      'Carne a cuchillo',
+      'Cebolla de verdeo',
+      'Huevo duro',
+      'Masa criolla',
+    ],
   },
+
   {
     id: 'empanada-carne-dulce',
     name: 'Empanada de Carne Dulce',
     categoryId: 'empanadas',
-    description: 'Receta criolla con carne tierna, cebolla caramelizada, pasas de uva rubias y un toque de azúcar.',
+    description:
+      'Receta criolla con carne tierna, cebolla caramelizada, pasas de uva rubias y un toque de azúcar.',
     price: 1800,
     tags: ['recomendado'],
-    ingredients: ['Carne vacuna', 'Cebolla caramelizada', 'Pasas de uva', 'Pimentón dulce'],
+    ingredients: [
+      'Carne vacuna',
+      'Cebolla caramelizada',
+      'Pasas de uva',
+      'Pimentón dulce',
+    ],
   },
+
   {
     id: 'empanada-arabe',
     name: 'Empanada Árabe (Fatay)',
     categoryId: 'empanadas',
-    description: 'Masa fina abierta al estilo fatay, rellena de carne especiada con limón fresco, tomate y cebolla picada.',
+    description:
+      'Masa fina abierta al estilo fatay, rellena de carne especiada con limón fresco, tomate y cebolla picada.',
     price: 1900,
     tags: ['especial'],
-    ingredients: ['Carne especiada', 'Jugo de limón natural', 'Cebolla', 'Tomate', 'Menta y comino'],
+    ingredients: [
+      'Carne especiada',
+      'Jugo de limón natural',
+      'Cebolla',
+      'Tomate',
+      'Menta y comino',
+    ],
   },
+
   {
     id: 'empanada-pollo',
     name: 'Empanada de Pollo',
     categoryId: 'empanadas',
-    description: 'Pollo desmenuzado jugoso cocinado a fuego lento con puerro, cebolla, morrón y huevo.',
+    description:
+      'Pollo desmenuzado jugoso cocinado a fuego lento con puerro, cebolla, morrón y huevo.',
     price: 1800,
     tags: ['recomendado'],
-    ingredients: ['Pechuga de pollo', 'Puerro y cebolla', 'Morrón rojo', 'Aceitunas verdes'],
+    ingredients: [
+      'Pechuga de pollo',
+      'Puerro y cebolla',
+      'Morrón rojo',
+      'Aceitunas verdes',
+    ],
   },
+
   {
     id: 'empanada-jamon-queso',
     name: 'Empanada de Jamón y Queso',
     categoryId: 'empanadas',
-    description: 'Generosa porción de jamón cocido seleccionado y mozzarella fundida con un toque de orégano.',
+    description:
+      'Generosa porción de jamón cocido seleccionado y mozzarella fundida con un toque de orégano.',
     price: 1800,
-    ingredients: ['Jamón cocido', 'Mozzarella fundida', 'Orégano'],
+    ingredients: [
+      'Jamón cocido',
+      'Mozzarella fundida',
+      'Orégano',
+    ],
   },
 
-  // --- MENÚ AL PLATO ---
+  // =========================================================
+  // MENÚ AL PLATO
+  // =========================================================
+
   {
     id: 'plato-mila-nalga',
     name: 'Milanesa de Nalga Clásica',
     categoryId: 'platos',
-    description: 'Gran milanesa de nalga tierna empanada con pan rallado casero y hierbas. Incluye guarnición a elección.',
+    description:
+      'Gran milanesa de nalga tierna empanada con pan rallado casero y hierbas. Incluye guarnición a elección.',
     price: 11200,
     tags: ['destacado'],
-    ingredients: ['Corte de nalga seleccionado', 'Rebozado casero', 'Limón', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
+    ingredients: [
+      'Corte de nalga seleccionado',
+      'Rebozado casero',
+      'Limón',
+      'Guarnición a elección',
     ],
-  },
-  {
-    id: 'plato-mila-nalga-gratinada',
-    name: 'Milanesa de Nalga Gratinada',
-    categoryId: 'platos',
-    description: 'Milanesa de nalga cubierta con queso mozzarella gratinado y orégano fresco. Con guarnición.',
-    price: 12500,
-    tags: ['recomendado'],
-    ingredients: ['Milanesa de nalga', 'Mozzarella gratinada', 'Orégano', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-mila-nalga-napolitana',
-    name: 'Milanesa de Nalga Napolitana',
-    categoryId: 'platos',
-    description: 'El clásico argentino: milanesa de nalga con salsa de tomate casera, jamón cocido, abundante mozzarella y rodajas de tomate.',
-    price: 13400,
-    tags: ['destacado', 'especial'],
-    ingredients: ['Nalga empanada', 'Salsa de tomate', 'Jamón cocido', 'Mozzarella', 'Rodajas de tomate', 'Guarnición'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-mila-nalga-caballo',
-    name: 'Milanesa de Nalga a Caballo',
-    categoryId: 'platos',
-    description: 'Milanesa de nalga servida con 2 huevos fritos a caballo con yema perfecta y guarnición a elección.',
-    price: 12900,
-    tags: ['destacado'],
-    ingredients: ['Milanesa de nalga', '2 huevos fritos de campo', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-mila-pollo',
-    name: 'Suprema de Pollo Simple',
-    categoryId: 'platos',
-    description: 'Pechuga de pollo tiernizada y dorada, crujiente por fuera y jugosa por dentro. Con guarnición.',
-    price: 10500,
-    tags: ['recomendado'],
-    ingredients: ['Suprema de pechuga', 'Rebozado crujiente', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-mila-pollo-gratinada',
-    name: 'Suprema de Pollo Gratinada',
-    categoryId: 'platos',
-    description: 'Suprema de pollo cubierta con queso mozzarella fundido al horno y orégano. Con guarnición.',
-    price: 11800,
-    ingredients: ['Suprema de pollo', 'Queso mozzarella gratinado', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-mila-pollo-napolitana',
-    name: 'Suprema de Pollo Napolitana',
-    categoryId: 'platos',
-    description: 'Suprema de pollo cubierta con salsa de tomate, jamón, mozzarella fundida y orégano. Con guarnición.',
-    price: 12800,
-    tags: ['destacado'],
-    ingredients: ['Suprema de pollo', 'Salsa de tomate', 'Jamón', 'Mozzarella', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-lomo',
-    name: 'Bife de Lomo al Plato',
-    categoryId: 'platos',
-    description: 'Tierno bife de lomo a la plancha en su punto justo de cocción, acompañado de guarnición a elección.',
-    price: 14800,
-    tags: ['destacado'],
-    ingredients: ['Corte de lomo vacuno', 'Hierbas frescas', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-lomo-gratinado',
-    name: 'Lomo Gratinado al Horno',
-    categoryId: 'platos',
-    description: 'Medallón de lomo sellado y gratinado con queso mozzarella y parmesano dorado. Con guarnición.',
-    price: 15900,
-    ingredients: ['Lomo vacuno', 'Mozzarella y parmesano', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-lomo-champinon',
-    name: 'Lomo al Champiñón',
-    categoryId: 'platos',
-    description: 'Lomo tierno bañado en reducción de vino blanco, crema de leche y champiñones salteados. Con guarnición.',
-    price: 16500,
-    tags: ['especial'],
-    ingredients: ['Lomo vacuno', 'Champiñones frescos', 'Crema y vino blanco', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-lomo-roquefort',
-    name: 'Lomo al Roquefort',
-    categoryId: 'platos',
-    description: 'Bife de lomo cubierto con una intensa y suave salsa de queso azul fundido con crema. Con guarnición.',
-    price: 16500,
-    tags: ['especial'],
-    ingredients: ['Lomo vacuno', 'Queso roquefort', 'Crema de leche', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-hamburguesa-casera',
-    name: 'Hamburguesa Casera al Plato',
-    categoryId: 'platos',
-    description: 'Dos medallones de carne vacuna casera a la plancha, servidos al plato con guarnición a elección.',
-    price: 9900,
-    tags: ['recomendado'],
-    ingredients: ['Doble medallón casero', 'Condimento Punto Bocado', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-medallon-pollo',
-    name: 'Medallón de Pollo al Plato',
-    categoryId: 'platos',
-    description: 'Medallón de pollo sazonado a la plancha con hierbas y guarnición a elección.',
-    price: 9500,
-    ingredients: ['Pechuga procesada con hierbas', 'Dorado a la plancha', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-albondigas',
-    name: 'Albóndigas Caseras',
-    categoryId: 'platos',
-    description: 'Porción de albóndigas caseras de carne vacuna doradas y tiernas, servidas con guarnición a elección.',
-    price: 9200,
-    ingredients: ['Carne vacuna', 'Perejil y ajo', 'Parmesano', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-albondigon-salsa',
-    name: 'Albondigón con Salsa Pomodoro',
-    categoryId: 'platos',
-    description: 'Gran albondigón casero cocido a fuego lento en salsa de tomates frescos y finas hierbas. Con guarnición.',
-    price: 9900,
-    tags: ['destacado'],
-    ingredients: ['Albondigón relleno', 'Salsa de tomates frescos', 'Albahaca', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-carre-cerdo',
-    name: 'Carré de Cerdo',
-    categoryId: 'platos',
-    description: 'Costillita / corte de carré de cerdo a la plancha o dorada al horno con reducción aromática y guarnición.',
-    price: 11900,
-    tags: ['recomendado'],
-    ingredients: ['Carré de cerdo seleccionado', 'Adobo especial', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-filet-pollo',
-    name: 'Filet de Pollo Grillé',
-    categoryId: 'platos',
-    description: 'Pechuga de pollo a la plancha con limón, romero y guarnición a elección.',
-    price: 9900,
-    ingredients: ['Pechuga grillada', 'Jugo de limón', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-filet-pollo-champinon',
-    name: 'Filet de Pollo al Champiñón',
-    categoryId: 'platos',
-    description: 'Filet de pollo cubierto con cremosa salsa de champiñones salteados con vino blanco y cebolla. Con guarnición.',
-    price: 12200,
-    tags: ['especial'],
-    ingredients: ['Filet de pollo', 'Champiñones salteados', 'Crema y vino blanco', 'Guarnición a elección'],
-    options: [
-      {
-        title: 'Guarnición incluida',
-        items: GUARNICIONES,
-        required: true,
-      },
-    ],
-  },
-  {
-    id: 'plato-filet-pollo-roquefort',
-    name: 'Filet de Pollo al Roquefort',
-    categoryId: 'platos',
-    description: 'Pechuga de pollo a la plancha bañada en una intensa salsa de queso azul fundido con crema. Con guarnición.',
-    price: 12200,
-    tags: ['especial'],
-    ingredients: ['Filet de pollo', 'Queso roquefort', 'Crema de leche', 'Guarnición a elección'],
     options: [
       {
         title: 'Guarnición incluida',
@@ -611,25 +470,439 @@ export const MENU_ITEMS: MenuItem[] = [
     ],
   },
 
-  // --- SÁNDWICHES ---
+  {
+    id: 'plato-mila-nalga-gratinada',
+    name: 'Milanesa de Nalga Gratinada',
+    categoryId: 'platos',
+    description:
+      'Milanesa de nalga cubierta con queso mozzarella gratinado y orégano fresco. Con guarnición.',
+    price: 12500,
+    tags: ['recomendado'],
+    ingredients: [
+      'Milanesa de nalga',
+      'Mozzarella gratinada',
+      'Orégano',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-mila-nalga-napolitana',
+    name: 'Milanesa de Nalga Napolitana',
+    categoryId: 'platos',
+    description:
+      'El clásico argentino: milanesa de nalga con salsa de tomate casera, jamón cocido, abundante mozzarella y rodajas de tomate.',
+    price: 13400,
+    tags: ['destacado', 'especial'],
+    ingredients: [
+      'Nalga empanada',
+      'Salsa de tomate',
+      'Jamón cocido',
+      'Mozzarella',
+      'Rodajas de tomate',
+      'Guarnición',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-mila-nalga-caballo',
+    name: 'Milanesa de Nalga a Caballo',
+    categoryId: 'platos',
+    description:
+      'Milanesa de nalga servida con 2 huevos fritos a caballo con yema perfecta y guarnición a elección.',
+    price: 12900,
+    tags: ['destacado'],
+    ingredients: [
+      'Milanesa de nalga',
+      '2 huevos fritos de campo',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-mila-pollo',
+    name: 'Suprema de Pollo Simple',
+    categoryId: 'platos',
+    description:
+      'Pechuga de pollo tiernizada y dorada, crujiente por fuera y jugosa por dentro. Con guarnición.',
+    price: 10500,
+    tags: ['recomendado'],
+    ingredients: [
+      'Suprema de pechuga',
+      'Rebozado crujiente',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-mila-pollo-gratinada',
+    name: 'Suprema de Pollo Gratinada',
+    categoryId: 'platos',
+    description:
+      'Suprema de pollo cubierta con queso mozzarella fundido al horno y orégano. Con guarnición.',
+    price: 11800,
+    ingredients: [
+      'Suprema de pollo',
+      'Queso mozzarella gratinado',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-mila-pollo-napolitana',
+    name: 'Suprema de Pollo Napolitana',
+    categoryId: 'platos',
+    description:
+      'Suprema de pollo cubierta con salsa de tomate, jamón, mozzarella fundida y orégano. Con guarnición.',
+    price: 12800,
+    tags: ['destacado'],
+    ingredients: [
+      'Suprema de pollo',
+      'Salsa de tomate',
+      'Jamón',
+      'Mozzarella',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-lomo',
+    name: 'Bife de Lomo al Plato',
+    categoryId: 'platos',
+    description:
+      'Tierno bife de lomo a la plancha en su punto justo de cocción, acompañado de guarnición a elección.',
+    price: 14800,
+    tags: ['destacado'],
+    ingredients: [
+      'Corte de lomo vacuno',
+      'Hierbas frescas',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-lomo-gratinado',
+    name: 'Lomo Gratinado al Horno',
+    categoryId: 'platos',
+    description:
+      'Medallón de lomo sellado y gratinado con queso mozzarella y parmesano dorado. Con guarnición.',
+    price: 15900,
+    ingredients: [
+      'Lomo vacuno',
+      'Mozzarella y parmesano',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-lomo-champinon',
+    name: 'Lomo al Champiñón',
+    categoryId: 'platos',
+    description:
+      'Lomo tierno bañado en reducción de vino blanco, crema de leche y champiñones salteados. Con guarnición.',
+    price: 16500,
+    tags: ['especial'],
+    ingredients: [
+      'Lomo vacuno',
+      'Champiñones frescos',
+      'Crema y vino blanco',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-lomo-roquefort',
+    name: 'Lomo al Roquefort',
+    categoryId: 'platos',
+    description:
+      'Bife de lomo cubierto con una intensa y suave salsa de queso azul fundido con crema. Con guarnición.',
+    price: 16500,
+    tags: ['especial'],
+    ingredients: [
+      'Lomo vacuno',
+      'Queso roquefort',
+      'Crema de leche',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-hamburguesa-casera',
+    name: 'Hamburguesa Casera al Plato',
+    categoryId: 'platos',
+    description:
+      'Dos medallones de carne vacuna casera a la plancha, servidos al plato con guarnición a elección.',
+    price: 9900,
+    tags: ['recomendado'],
+    ingredients: [
+      'Doble medallón casero',
+      'Condimento Punto Bocado',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-medallon-pollo',
+    name: 'Medallón de Pollo al Plato',
+    categoryId: 'platos',
+    description:
+      'Medallón de pollo sazonado a la plancha con hierbas y guarnición a elección.',
+    price: 9500,
+    ingredients: [
+      'Pechuga procesada con hierbas',
+      'Dorado a la plancha',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-albondigas',
+    name: 'Albóndigas Caseras',
+    categoryId: 'platos',
+    description:
+      'Porción de albóndigas caseras de carne vacuna doradas y tiernas, servidas con guarnición a elección.',
+    price: 9200,
+    ingredients: [
+      'Carne vacuna',
+      'Perejil y ajo',
+      'Parmesano',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-albondigon-salsa',
+    name: 'Albondigón con Salsa Pomodoro',
+    categoryId: 'platos',
+    description:
+      'Gran albondigón casero cocido a fuego lento en salsa de tomates frescos y finas hierbas. Con guarnición.',
+    price: 9900,
+    tags: ['destacado'],
+    ingredients: [
+      'Albondigón relleno',
+      'Salsa de tomates frescos',
+      'Albahaca',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-carre-cerdo',
+    name: 'Carré de Cerdo',
+    categoryId: 'platos',
+    description:
+      'Costillita / corte de carré de cerdo a la plancha o dorada al horno con reducción aromática y guarnición.',
+    price: 11900,
+    tags: ['recomendado'],
+    ingredients: [
+      'Carré de cerdo seleccionado',
+      'Adobo especial',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-filet-pollo',
+    name: 'Filet de Pollo Grillé',
+    categoryId: 'platos',
+    description:
+      'Pechuga de pollo a la plancha con limón, romero y guarnición a elección.',
+    price: 9900,
+    ingredients: [
+      'Pechuga grillada',
+      'Jugo de limón',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-filet-pollo-champinon',
+    name: 'Filet de Pollo al Champiñón',
+    categoryId: 'platos',
+    description:
+      'Filet de pollo cubierto con cremosa salsa de champiñones salteados con vino blanco y cebolla. Con guarnición.',
+    price: 12200,
+    tags: ['especial'],
+    ingredients: [
+      'Filet de pollo',
+      'Champiñones salteados',
+      'Crema y vino blanco',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  {
+    id: 'plato-filet-pollo-roquefort',
+    name: 'Filet de Pollo al Roquefort',
+    categoryId: 'platos',
+    description:
+      'Pechuga de pollo a la plancha bañada en una intensa salsa de queso azul fundido con crema. Con guarnición.',
+    price: 12200,
+    tags: ['especial'],
+    ingredients: [
+      'Filet de pollo',
+      'Queso roquefort',
+      'Crema de leche',
+      'Guarnición a elección',
+    ],
+    options: [
+      {
+        title: 'Guarnición incluida',
+        items: GUARNICIONES,
+        required: true,
+      },
+    ],
+  },
+
+  // =========================================================
+  // SÁNDWICHES
+  // =========================================================
+
   {
     id: 'sandwich-milanesa',
     name: 'Sándwich de Milanesa',
     categoryId: 'sandwiches',
-    description: 'Milanesa de nalga o pollo en pan baguette crocante recién horneado. Elegí entre versión Simple o Completa.',
+    description:
+      'Milanesa de nalga o pollo en pan baguette crocante recién horneado. Elegí entre versión Simple o Completa.',
     price: 9400,
     tags: ['destacado'],
-    ingredients: ['Pan baguette artesanal', 'Milanesa a elección', 'Lechuga y tomate', 'Aderezos'],
+    ingredients: [
+      'Pan baguette artesanal',
+      'Milanesa a elección',
+      'Lechuga y tomate',
+      'Aderezos',
+    ],
     variants: [
       {
         name: 'Simple (Lechuga y Tomate)',
         price: 9400,
-        description: 'Milanesa de nalga o pollo con lechuga fresca y tomate.',
+        description:
+          'Milanesa de nalga o pollo con lechuga fresca y tomate.',
       },
       {
         name: 'Completo (Lechuga, Tomate, Huevo, Jamón y Queso)',
         price: 11400,
-        description: 'Milanesa con lechuga, tomate, huevo a la plancha, jamón cocido y queso dambo derretido.',
+        description:
+          'Milanesa con lechuga, tomate, huevo a la plancha, jamón cocido y queso dambo derretido.',
       },
     ],
     options: [
@@ -640,126 +913,221 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'sandwich-lomo',
     name: 'Sándwich de Lomo (Lomito)',
     categoryId: 'sandwiches',
-    description: 'Tierno bife de lomo vacuno grillado en pan tostado artesanal. Elegí entre versión Simple o Completa.',
+    description:
+      'Tierno bife de lomo vacuno grillado en pan tostado artesanal. Elegí entre versión Simple o Completa.',
     price: 12500,
     tags: ['destacado', 'especial'],
-    ingredients: ['Lomo vacuno grillado', 'Pan artesanal', 'Mayonesa casera'],
+    ingredients: [
+      'Lomo vacuno grillado',
+      'Pan artesanal',
+      'Mayonesa casera',
+    ],
     variants: [
       {
         name: 'Simple (Lechuga y Tomate)',
         price: 12500,
-        description: 'Bife de lomo tierno con lechuga y tomate fresco.',
+        description:
+          'Bife de lomo tierno con lechuga y tomate fresco.',
       },
       {
         name: 'Completo (Lechuga, Tomate, Huevo, Jamón y Queso)',
         price: 14800,
-        description: 'Bife de lomo con lechuga, tomate, huevo a la plancha, jamón cocido y queso derretido.',
+        description:
+          'Bife de lomo con lechuga, tomate, huevo a la plancha, jamón cocido y queso derretido.',
       },
     ],
   },
 
-  // --- SÁNDWICHES DE MIGA ---
+  // =========================================================
+  // SÁNDWICHES DE MIGA
+  // =========================================================
+
   {
     id: 'miga-triple-jamon-queso',
     name: 'Triple de Jamón y Queso',
     categoryId: 'miga',
-    description: 'Clásico sándwich de miga triple con jamón cocido seleccionado y queso dambo suave con mayonesa.',
+    description:
+      'Clásico sándwich de miga triple con jamón cocido seleccionado y queso dambo suave con mayonesa.',
     price: 3200,
     tags: ['recomendado'],
-    ingredients: ['Pan de miga blanco o negro', 'Jamón cocido', 'Queso dambo', 'Mayonesa ligera'],
+    ingredients: [
+      'Pan de miga blanco o negro',
+      'Jamón cocido',
+      'Queso dambo',
+      'Mayonesa ligera',
+    ],
   },
+
   {
     id: 'miga-triple-pollo',
     name: 'Triple de Pollo',
     categoryId: 'miga',
-    description: 'Triple de miga relleno con pasta de pollo sazonada con finas hierbas, huevo y queso.',
+    description:
+      'Triple de miga relleno con pasta de pollo sazonada con finas hierbas, huevo y queso.',
     price: 3400,
-    ingredients: ['Pan de miga', 'Pasta de pollo', 'Huevo picado', 'Queso'],
+    ingredients: [
+      'Pan de miga',
+      'Pasta de pollo',
+      'Huevo picado',
+      'Queso',
+    ],
   },
+
   {
     id: 'miga-triple-primavera',
     name: 'Triple Primavera',
     categoryId: 'miga',
-    description: 'Sándwich de miga fresco con jamón cocido, queso, tomate en rodajas, lechuga fresca y huevo.',
+    description:
+      'Sándwich de miga fresco con jamón cocido, queso, tomate en rodajas, lechuga fresca y huevo.',
     price: 3500,
     tags: ['destacado'],
-    ingredients: ['Pan de miga', 'Jamón cocido', 'Queso', 'Tomate', 'Lechuga', 'Huevo duro'],
+    ingredients: [
+      'Pan de miga',
+      'Jamón cocido',
+      'Queso',
+      'Tomate',
+      'Lechuga',
+      'Huevo duro',
+    ],
   },
+
   {
     id: 'miga-triple-atun',
     name: 'Triple de Atún',
     categoryId: 'miga',
-    description: 'Triple de miga con lomitos de atún, mayonesa suave, morrones y huevo picado.',
+    description:
+      'Triple de miga con lomitos de atún, mayonesa suave, morrones y huevo picado.',
     price: 3600,
-    ingredients: ['Pan de miga', 'Lomitos de atún', 'Morrón rojo', 'Huevo', 'Mayonesa'],
+    ingredients: [
+      'Pan de miga',
+      'Lomitos de atún',
+      'Morrón rojo',
+      'Huevo',
+      'Mayonesa',
+    ],
   },
+
   {
     id: 'miga-tostado',
     name: 'Tostado Tradicional en Miga',
     categoryId: 'miga',
-    description: 'Sándwich de miga tostado a la plancha con manteca, queso fundido y jamón cocido bien crocante.',
+    description:
+      'Sándwich de miga tostado a la plancha con manteca, queso fundido y jamón cocido bien crocante.',
     price: 4900,
     tags: ['recomendado'],
-    ingredients: ['Pan de miga dorado con manteca', 'Jamón cocido', 'Queso derretido'],
+    ingredients: [
+      'Pan de miga dorado con manteca',
+      'Jamón cocido',
+      'Queso derretido',
+    ],
   },
+
   {
     id: 'miga-carlito',
     name: 'Carlito Especial Punto Bocado',
     categoryId: 'miga',
-    description: 'El clásico tostado rosarino en pan de miga con jamón cocido, queso fundido, manteca y salsa ketchup o especial.',
+    description:
+      'El clásico tostado rosarino en pan de miga con jamón cocido, queso fundido, manteca y salsa ketchup o especial.',
     price: 5400,
     tags: ['destacado', 'especial'],
-    ingredients: ['Pan de miga tostado', 'Jamón cocido', 'Queso dambo', 'Ketchup / salsa especial', 'Manteca dorada'],
+    ingredients: [
+      'Pan de miga tostado',
+      'Jamón cocido',
+      'Queso dambo',
+      'Ketchup / salsa especial',
+      'Manteca dorada',
+    ],
   },
 
-  // --- HAMBURGUESAS ---
+  // =========================================================
+  // HAMBURGUESAS
+  // =========================================================
+
   {
     id: 'burger-simple',
     name: 'Hamburguesa Simple',
     categoryId: 'hamburguesas',
-    description: 'Medallón casero de 160g de puro blend vacuno, lechuga fresca, rodajas de tomate y mayonesa casera en pan brioche tostado.',
+    description:
+      'Medallón casero de 160g de puro blend vacuno, lechuga fresca, rodajas de tomate y mayonesa casera en pan brioche tostado.',
     price: 7800,
-    ingredients: ['Medallón de carne 160g', 'Lechuga', 'Tomate', 'Pan brioche tostado'],
+    ingredients: [
+      'Medallón de carne 160g',
+      'Lechuga',
+      'Tomate',
+      'Pan brioche tostado',
+    ],
   },
+
   {
     id: 'burger-completa',
     name: 'Hamburguesa Completa',
     categoryId: 'hamburguesas',
-    description: 'Medallón casero de carne con lechuga, rodajas de tomate fresco, jamón cocido y queso dambo fundido.',
+    description:
+      'Medallón casero de carne con lechuga, rodajas de tomate fresco, jamón cocido y queso dambo fundido.',
     price: 9200,
     tags: ['recomendado'],
-    ingredients: ['Medallón casero 160g', 'Jamón cocido', 'Queso fundido', 'Lechuga y tomate', 'Pan brioche'],
+    ingredients: [
+      'Medallón casero 160g',
+      'Jamón cocido',
+      'Queso fundido',
+      'Lechuga y tomate',
+      'Pan brioche',
+    ],
   },
+
   {
     id: 'burger-cheddar',
     name: 'Hamburguesa Cheddar & Bacon',
     categoryId: 'hamburguesas',
-    description: 'Medallón casero con doble cheddar fundido y tiras crocantes de panceta ahumada en pan brioche.',
+    description:
+      'Medallón casero con doble cheddar fundido y tiras crocantes de panceta ahumada en pan brioche.',
     price: 9900,
     tags: ['destacado'],
-    ingredients: ['Medallón 160g', 'Doble queso cheddar', 'Panceta ahumada crocante', 'Salsa especial'],
+    ingredients: [
+      'Medallón 160g',
+      'Doble queso cheddar',
+      'Panceta ahumada crocante',
+      'Salsa especial',
+    ],
   },
+
   {
     id: 'burger-bocado',
     name: 'Hamburguesa Bocado (Estrella de la Casa)',
     categoryId: 'hamburguesas',
-    description: 'Nuestra burger insignia: medallón casero, queso cheddar derretido, abundante panceta crocante y cebolla caramelizada a fuego lento.',
+    description:
+      'Nuestra burger insignia: medallón casero, queso cheddar derretido, abundante panceta crocante y cebolla caramelizada a fuego lento.',
     price: 10800,
     tags: ['destacado', 'especial'],
-    ingredients: ['Blend especial 180g', 'Cheddar fundido', 'Panceta ahumada crocante', 'Cebolla caramelizada', 'Salsa Bocado', 'Pan brioche'],
+    ingredients: [
+      'Blend especial 180g',
+      'Cheddar fundido',
+      'Panceta ahumada crocante',
+      'Cebolla caramelizada',
+      'Salsa Bocado',
+      'Pan brioche',
+    ],
   },
+
   {
     id: 'burger-cebolla-crispy',
     name: 'Hamburguesa Cebolla Crispy',
     categoryId: 'hamburguesas',
-    description: 'Medallón casero con queso dambo o cheddar, lluvia de cebolla frita super crocante y tiras de panceta ahumada.',
+    description:
+      'Medallón casero con queso dambo o cheddar, lluvia de cebolla frita super crocante y tiras de panceta ahumada.',
     price: 10400,
     tags: ['recomendado'],
-    ingredients: ['Medallón 160g', 'Queso dambo o cheddar', 'Cebolla crispy crujiente', 'Panceta crocante'],
+    ingredients: [
+      'Medallón 160g',
+      'Queso dambo o cheddar',
+      'Cebolla crispy crujiente',
+      'Panceta crocante',
+    ],
     options: [
       {
         title: 'Elección de queso',
@@ -768,13 +1136,20 @@ export const MENU_ITEMS: MenuItem[] = [
       },
     ],
   },
+
   {
     id: 'burger-cebolla-pepinillo',
     name: 'Hamburguesa Cebolla y Pepinillo',
     categoryId: 'hamburguesas',
-    description: 'Medallón casero con queso dambo o cheddar, cebolla picada y finas láminas de pepinillos agridulces encurtidos.',
+    description:
+      'Medallón casero con queso dambo o cheddar, cebolla picada y finas láminas de pepinillos agridulces encurtidos.',
     price: 9900,
-    ingredients: ['Medallón 160g', 'Queso dambo o cheddar', 'Cebolla fresca', 'Pepinillos agridulces'],
+    ingredients: [
+      'Medallón 160g',
+      'Queso dambo o cheddar',
+      'Cebolla fresca',
+      'Pepinillos agridulces',
+    ],
     options: [
       {
         title: 'Elección de queso',
@@ -784,163 +1159,272 @@ export const MENU_ITEMS: MenuItem[] = [
     ],
   },
 
-  // --- PANCHOS Y EXTRAS ---
+  // =========================================================
+  // PANCHOS Y EXTRAS
+  // =========================================================
+
   {
     id: 'pancho-comun',
     name: 'Pancho Común Clásico',
     categoryId: 'panchos',
-    description: 'Salchicha tipo viena de primera calidad en pan suave con aderezos clásicos a gusto.',
+    description:
+      'Salchicha tipo viena de primera calidad en pan suave con aderezos clásicos a gusto.',
     price: 3200,
-    ingredients: ['Salchicha viena', 'Pan de pancho artesanal', 'Aderezos a elección'],
+    ingredients: [
+      'Salchicha viena',
+      'Pan de pancho artesanal',
+      'Aderezos a elección',
+    ],
   },
+
   {
     id: 'pancho-lluvia-papas',
     name: 'Pancho con Lluvia de Papas Pay',
     categoryId: 'panchos',
-    description: 'Salchicha viena con aderezos y coronado con abundante lluvia de papas pay crocantes.',
+    description:
+      'Salchicha viena con aderezos y coronado con abundante lluvia de papas pay crocantes.',
     price: 3800,
     tags: ['recomendado'],
-    ingredients: ['Salchicha viena', 'Lluvia de papas pay', 'Mayonesa y mostaza'],
+    ingredients: [
+      'Salchicha viena',
+      'Lluvia de papas pay',
+      'Mayonesa y mostaza',
+    ],
   },
+
   {
     id: 'pancho-pizza',
     name: 'Pancho Pizza Gratinado',
     categoryId: 'panchos',
-    description: 'Pancho cubierto con salsa de tomate pomodoro, mozzarella fundida al horno y orégano.',
+    description:
+      'Pancho cubierto con salsa de tomate pomodoro, mozzarella fundida al horno y orégano.',
     price: 4400,
     tags: ['destacado'],
-    ingredients: ['Salchicha viena', 'Salsa de tomate', 'Mozzarella gratinada', 'Orégano'],
+    ingredients: [
+      'Salchicha viena',
+      'Salsa de tomate',
+      'Mozzarella gratinada',
+      'Orégano',
+    ],
   },
+
   {
     id: 'extra-papas-cheddar',
     name: 'Papas con Cheddar y Panceta',
     categoryId: 'panchos',
-    description: 'Porción abundante de papas fritas bastón bañadas con crema de queso cheddar y crocante de panceta.',
+    description:
+      'Porción abundante de papas fritas bastón bañadas con crema de queso cheddar y crocante de panceta.',
     price: 6800,
     tags: ['destacado', 'compartir'],
-    ingredients: ['Papas fritas crocantes', 'Salsa cheddar fundida', 'Panceta crocante', 'Ciboulette'],
+    ingredients: [
+      'Papas fritas crocantes',
+      'Salsa cheddar fundida',
+      'Panceta crocante',
+      'Ciboulette',
+    ],
   },
+
   {
     id: 'extra-salchipapas',
     name: 'Salchipapas Punto Bocado',
     categoryId: 'panchos',
-    description: 'Papas fritas combinadas con rodajas doradas de salchicha viena y aderezos especiales.',
+    description:
+      'Papas fritas combinadas con rodajas doradas de salchicha viena y aderezos especiales.',
     price: 6400,
     tags: ['compartir'],
-    ingredients: ['Papas fritas', 'Salchichas doradas', 'Salsa golf y mostaza'],
+    ingredients: [
+      'Papas fritas',
+      'Salchichas doradas',
+      'Salsa golf y mostaza',
+    ],
   },
+
   {
     id: 'extra-patitas-pollo',
     name: 'Patitas de Pollo Crocantes (Nuggets)',
     categoryId: 'panchos',
-    description: 'Patitas de pollo rebozadas y doradas, crujientes por fuera y tiernas por dentro, con dip de salsas.',
+    description:
+      'Patitas de pollo rebozadas y doradas, crujientes por fuera y tiernas por dentro, con dip de salsas.',
     price: 5900,
-    ingredients: ['Pollo tierno', 'Rebozado crujiente', 'Dip de barbacoa o mostaza'],
+    ingredients: [
+      'Pollo tierno',
+      'Rebozado crujiente',
+      'Dip de barbacoa o mostaza',
+    ],
   },
+
   {
     id: 'extra-bastones-mozzarella',
     name: 'Bastones de Mozzarella Rebozados',
     categoryId: 'panchos',
-    description: 'Bastones de auténtico queso mozzarella empanados en panko con hierbas aromáticas, acompañados de salsa pomodoro.',
+    description:
+      'Bastones de auténtico queso mozzarella empanados en panko con hierbas aromáticas, acompañados de salsa pomodoro.',
     price: 6900,
     tags: ['destacado', 'veggie'],
-    ingredients: ['Mozzarella hilada', 'Panko crujiente', 'Hierbas provenzales', 'Salsa pomodoro dip'],
+    ingredients: [
+      'Mozzarella hilada',
+      'Panko crujiente',
+      'Hierbas provenzales',
+      'Salsa pomodoro dip',
+    ],
   },
+
   {
     id: 'extra-cazuela-albondigas',
     name: 'Cazuela Caliente de Albóndigas',
     categoryId: 'panchos',
-    description: 'Cazuela de barro con albondiguitas caseras de carne en salsa de tomate especiada.',
+    description:
+      'Cazuela de barro con albondiguitas caseras de carne en salsa de tomate especiada.',
     price: 6200,
-    ingredients: ['Albondiguitas caseras', 'Salsa pomodoro', 'Pan tostado'],
+    ingredients: [
+      'Albondiguitas caseras',
+      'Salsa pomodoro',
+      'Pan tostado',
+    ],
   },
+
   {
     id: 'extra-cazuela-salchichas',
     name: 'Cazuela de Salchichas',
     categoryId: 'panchos',
-    description: 'Cazuela caliente con salchichas salteadas con cebolla, morrones y mostaza.',
+    description:
+      'Cazuela caliente con salchichas salteadas con cebolla, morrones y mostaza.',
     price: 5800,
-    ingredients: ['Salchichas en rodajas', 'Cebollas salteadas', 'Morrón', 'Mostaza'],
+    ingredients: [
+      'Salchichas en rodajas',
+      'Cebollas salteadas',
+      'Morrón',
+      'Mostaza',
+    ],
   },
+
   {
     id: 'extra-albondigas-fritas',
     name: 'Albóndigas Fritas Crocantes',
     categoryId: 'panchos',
-    description: 'Porción de albóndigas fritas crocantes servidas con limón y salsa especial para dipear.',
+    description:
+      'Porción de albóndigas fritas crocantes servidas con limón y salsa especial para dipear.',
     price: 5900,
-    ingredients: ['Albóndigas de carne', 'Fritura dorada', 'Limón'],
+    ingredients: [
+      'Albóndigas de carne',
+      'Fritura dorada',
+      'Limón',
+    ],
   },
+
   {
     id: 'extra-lengua-vinagreta',
     name: 'Lengua a la Vinagreta Casera',
     categoryId: 'panchos',
-    description: 'Receta tradicional: finas fetas de lengua vacuna tierna maceradas en vinagreta con perejil, ajo, huevo duro y aceite de oliva.',
+    description:
+      'Receta tradicional: finas fetas de lengua vacuna tierna maceradas en vinagreta con perejil, ajo, huevo duro y aceite de oliva.',
     price: 7200,
     tags: ['especial'],
-    ingredients: ['Lengua vacuna tierna', 'Perejil fresco', 'Ajo picado', 'Huevo duro', 'Vinagreta aromática'],
+    ingredients: [
+      'Lengua vacuna tierna',
+      'Perejil fresco',
+      'Ajo picado',
+      'Huevo duro',
+      'Vinagreta aromática',
+    ],
   },
 
-  // --- FIAMBRES ---
+  // =========================================================
+  // FIAMBRES
+  // =========================================================
+
   {
     id: 'fiambre-salame',
     name: 'Salame de Campo',
     categoryId: 'fiambres',
-    description: 'Salame de campo tipo Colonia Caroya estacionado con especias naturales cortado en finas rodajas.',
+    description:
+      'Salame de campo tipo Colonia Caroya estacionado con especias naturales cortado en finas rodajas.',
     price: 5200,
     tags: ['recomendado'],
-    ingredients: ['Salame picado fino/grueso estacionado'],
+    ingredients: [
+      'Salame picado fino/grueso estacionado',
+    ],
   },
+
   {
     id: 'fiambre-bondiola',
     name: 'Bondiola Estacionada',
     categoryId: 'fiambres',
-    description: 'Finas lonjas de bondiola de cerdo curada y estacionada con pimienta negra.',
+    description:
+      'Finas lonjas de bondiola de cerdo curada y estacionada con pimienta negra.',
     price: 5800,
     tags: ['destacado'],
-    ingredients: ['Bondiola curada artesanal'],
+    ingredients: [
+      'Bondiola curada artesanal',
+    ],
   },
+
   {
     id: 'fiambre-mortadela',
     name: 'Mortadela Premium con Pistachos',
     categoryId: 'fiambres',
-    description: 'Fetas de mortadela de primera calidad con suave aroma a especias y pistachos.',
+    description:
+      'Fetas de mortadela de primera calidad con suave aroma a especias y pistachos.',
     price: 4600,
-    ingredients: ['Mortadela seleccionada'],
+    ingredients: [
+      'Mortadela seleccionada',
+    ],
   },
+
   {
     id: 'fiambre-queso',
     name: 'Tabla de Queso Dambo & Pategrás',
     categoryId: 'fiambres',
-    description: 'Cubos y fetas de queso dambo suave y pategrás estacionado.',
+    description:
+      'Cubos y fetas de queso dambo suave y pategrás estacionado.',
     price: 5200,
     tags: ['veggie'],
-    ingredients: ['Queso pategrás', 'Queso dambo'],
+    ingredients: [
+      'Queso pategrás',
+      'Queso dambo',
+    ],
   },
+
   {
     id: 'fiambre-aceitunas',
     name: 'Aceitunas Verdes y Negras Marinadas',
     categoryId: 'fiambres',
-    description: 'Cazuela de aceitunas verdes carnosas y negras griegas maceradas con aceite de oliva, orégano y ají molido.',
+    description:
+      'Cazuela de aceitunas verdes carnosas y negras griegas maceradas con aceite de oliva, orégano y ají molido.',
     price: 3600,
     tags: ['veggie'],
-    ingredients: ['Aceitunas verdes y negras', 'Aceite de oliva', 'Hierbas'],
+    ingredients: [
+      'Aceitunas verdes y negras',
+      'Aceite de oliva',
+      'Hierbas',
+    ],
   },
+
   {
     id: 'fiambre-aros-cebolla',
     name: 'Aros de Cebolla Rebozados',
     categoryId: 'fiambres',
-    description: 'Aros de cebolla fresca dorados y crujientes con dip de salsa barbacoa.',
+    description:
+      'Aros de cebolla fresca dorados y crujientes con dip de salsa barbacoa.',
     price: 4900,
     tags: ['veggie', 'compartir'],
-    ingredients: ['Aros de cebolla', 'Rebozado crujiente', 'Salsa barbacoa'],
+    ingredients: [
+      'Aros de cebolla',
+      'Rebozado crujiente',
+      'Salsa barbacoa',
+    ],
   },
 
-  // --- PICADAS ---
+  // =========================================================
+  // PICADAS
+  // =========================================================
+
   {
     id: 'picada-simple',
     name: 'Picada Simple Tradicional',
     categoryId: 'picadas',
-    description: 'La opción ideal para arrancar la noche entre amigos. Incluye aceitunas, mortadela, salame de campo, queso, maní tostado y papitas.',
+    description:
+      'La opción ideal para arrancar la noche entre amigos. Incluye aceitunas, mortadela, salame de campo, queso, maní tostado y papitas.',
     price: 18500,
     servesCount: '2 a 3 personas',
     tags: ['compartir', 'recomendado'],
@@ -953,11 +1437,13 @@ export const MENU_ITEMS: MenuItem[] = [
       'Papitas copetín',
     ],
   },
+
   {
     id: 'picada-completa',
     name: 'Picada Completa',
     categoryId: 'picadas',
-    description: 'Una picada super completa y variada con fiambres, cazuelas calientes y empanadas.',
+    description:
+      'Una picada super completa y variada con fiambres, cazuelas calientes y empanadas.',
     price: 28900,
     servesCount: '4 a 5 personas',
     tags: ['compartir', 'destacado'],
@@ -972,11 +1458,13 @@ export const MENU_ITEMS: MenuItem[] = [
       'Mortadela premium',
     ],
   },
+
   {
     id: 'picada-bocado-simple',
     name: 'Picada Bocado Simple',
     categoryId: 'picadas',
-    description: 'Especialidad de la casa: porciones de pizza caliente, cazuela a elección, papas fritas doradas, fiambres de primera y quesos especiales.',
+    description:
+      'Especialidad de la casa: porciones de pizza caliente, cazuela a elección, papas fritas doradas, fiambres de primera y quesos especiales.',
     price: 23500,
     servesCount: '2 a 3 personas',
     tags: ['compartir', 'destacado', 'especial'],
@@ -992,11 +1480,13 @@ export const MENU_ITEMS: MenuItem[] = [
       'Aceitunas',
     ],
   },
+
   {
     id: 'picada-bocado-completa',
     name: 'Picada Bocado Completa (Gran Banquete)',
     categoryId: 'picadas',
-    description: 'La máxima experiencia de Punto Bocado: pizza, cazuelas calientes, empanaditas, papas, Carlito tostado, fiambres y milanesa picada en tiras.',
+    description:
+      'La máxima experiencia de Punto Bocado: pizza, cazuelas calientes, empanaditas, papas, Carlito tostado, fiambres y milanesa picada en tiras.',
     price: 36900,
     servesCount: '4 a 5 personas',
     tags: ['compartir', 'destacado', 'especial'],
@@ -1015,136 +1505,261 @@ export const MENU_ITEMS: MenuItem[] = [
     ],
   },
 
-  // --- PIZZAS ---
+  // =========================================================
+  // PIZZAS
+  // =========================================================
+
   {
     id: 'pizza-mozzarella',
     name: 'Pizza de Mozzarella',
     categoryId: 'pizzas',
-    description: 'Masa madre crocante a la piedra, salsa de tomate casera, abundante queso mozzarella fundido, aceitunas verdes y orégano.',
+    description:
+      'Masa madre crocante a la piedra, salsa de tomate casera, abundante queso mozzarella fundido, aceitunas verdes y orégano.',
     price: 9800,
     tags: ['destacado'],
-    ingredients: ['Masa madre crocante', 'Salsa de tomate', 'Mozzarella de primera', 'Aceitunas', 'Orégano'],
+    ingredients: [
+      'Masa madre crocante',
+      'Salsa de tomate',
+      'Mozzarella de primera',
+      'Aceitunas',
+      'Orégano',
+    ],
   },
+
   {
     id: 'pizza-jamon',
     name: 'Pizza de Jamón Cocido',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa pomodoro, mozzarella fundida, jamón cocido seleccionado y orégano.',
+    description:
+      'Masa madre, salsa pomodoro, mozzarella fundida, jamón cocido seleccionado y orégano.',
     price: 11200,
-    ingredients: ['Masa madre', 'Salsa de tomate', 'Mozzarella', 'Jamón cocido', 'Orégano'],
+    ingredients: [
+      'Masa madre',
+      'Salsa de tomate',
+      'Mozzarella',
+      'Jamón cocido',
+      'Orégano',
+    ],
   },
+
   {
     id: 'pizza-especial',
     name: 'Pizza Especial',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella, jamón cocido, huevo duro picado, tiras de morrón asado, aceitunas y orégano.',
+    description:
+      'Masa madre, salsa, mozzarella, jamón cocido, huevo duro picado, tiras de morrón asado, aceitunas y orégano.',
     price: 12500,
     tags: ['destacado'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Jamón', 'Huevo duro', 'Morrón asado', 'Aceitunas', 'Orégano'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Jamón',
+      'Huevo duro',
+      'Morrón asado',
+      'Aceitunas',
+      'Orégano',
+    ],
   },
+
   {
     id: 'pizza-roquefort',
     name: 'Pizza de Roquefort (Queso Azul)',
     categoryId: 'pizzas',
-    description: 'Masa madre crocante, salsa de tomate, mozzarella fundida y trozos generosos de queso roquefort intenso.',
+    description:
+      'Masa madre crocante, salsa de tomate, mozzarella fundida y trozos generosos de queso roquefort intenso.',
     price: 12800,
     tags: ['especial'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Queso roquefort fundido'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Queso roquefort fundido',
+    ],
   },
+
   {
     id: 'pizza-fugazza',
     name: 'Pizza Fugazza con Queso',
     categoryId: 'pizzas',
-    description: 'Masa madre a la piedra, mozzarella fundida, abundante cebolla caramelizada salteada al orégano y oliva.',
+    description:
+      'Masa madre a la piedra, mozzarella fundida, abundante cebolla caramelizada salteada al orégano y oliva.',
     price: 11500,
     tags: ['veggie', 'recomendado'],
-    ingredients: ['Masa madre', 'Mozzarella', 'Cebolla caramelizada', 'Orégano y oliva'],
+    ingredients: [
+      'Masa madre',
+      'Mozzarella',
+      'Cebolla caramelizada',
+      'Orégano y oliva',
+    ],
   },
+
   {
     id: 'pizza-salchicha',
     name: 'Pizza con Salchicha & Mostaza',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa pomodoro, mozzarella fundida, rodajas de salchicha viena y toques de mostaza.',
+    description:
+      'Masa madre, salsa pomodoro, mozzarella fundida, rodajas de salchicha viena y toques de mostaza.',
     price: 11400,
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Salchichas en rodajas', 'Mostaza'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Salchichas en rodajas',
+      'Mostaza',
+    ],
   },
+
   {
     id: 'pizza-palmitos',
     name: 'Pizza de Palmitos & Salsa Golf',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella, palmitos seleccionados en rodajas, huevo duro y espirales de salsa golf.',
+    description:
+      'Masa madre, salsa, mozzarella, palmitos seleccionados en rodajas, huevo duro y espirales de salsa golf.',
     price: 13200,
     tags: ['especial'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Palmitos en rodajas', 'Salsa golf'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Palmitos en rodajas',
+      'Salsa golf',
+    ],
   },
+
   {
     id: 'pizza-choclo',
     name: 'Pizza de Choclo Cremoso',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella fundida y granos de choclo tierno salteados con un toque de crema y queso rallado.',
+    description:
+      'Masa madre, salsa, mozzarella fundida y granos de choclo tierno salteados con un toque de crema y queso rallado.',
     price: 11600,
     tags: ['veggie'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Choclo dorado'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Choclo dorado',
+    ],
   },
+
   {
     id: 'pizza-calabresa',
     name: 'Pizza Calabresa',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella fundida, rodajas de salame tipo calabrés picante y aceitunas negras.',
+    description:
+      'Masa madre, salsa, mozzarella fundida, rodajas de salame tipo calabrés picante y aceitunas negras.',
     price: 12600,
     tags: ['destacado'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Salame tipo calabrés', 'Aceitunas'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Salame tipo calabrés',
+      'Aceitunas',
+    ],
   },
+
   {
     id: 'pizza-pollo',
     name: 'Pizza de Pollo & Salsa Golf',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella, tiras de pechuga de pollo sazonadas y aderezo de salsa golf.',
+    description:
+      'Masa madre, salsa, mozzarella, tiras de pechuga de pollo sazonadas y aderezo de salsa golf.',
     price: 12800,
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Pollo sazonado', 'Salsa golf'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Pollo sazonado',
+      'Salsa golf',
+    ],
   },
+
   {
     id: 'pizza-napolitana',
     name: 'Pizza Napolitana Tradicional',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella fundida, rodajas frescas de tomate natural, ajo picado macerado y orégano.',
+    description:
+      'Masa madre, salsa, mozzarella fundida, rodajas frescas de tomate natural, ajo picado macerado y orégano.',
     price: 11900,
     tags: ['destacado', 'veggie'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Rodajas de tomate', 'Ajo macerado', 'Orégano'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Rodajas de tomate',
+      'Ajo macerado',
+      'Orégano',
+    ],
   },
+
   {
     id: 'pizza-anchoas',
     name: 'Pizza con Anchoas',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa pomodoro intensa, mozzarella fundida y filetes de anchoa seleccionadas en conserva.',
+    description:
+      'Masa madre, salsa pomodoro intensa, mozzarella fundida y filetes de anchoa seleccionadas en conserva.',
     price: 12900,
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Filetes de anchoas', 'Aceitunas negras'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Filetes de anchoas',
+      'Aceitunas negras',
+    ],
   },
+
   {
     id: 'pizza-tomate-ajo',
     name: 'Pizza de Tomate y Ajo',
     categoryId: 'pizzas',
-    description: 'Masa madre crocante, salsa de tomate, mozzarella fundida, rodajas finas de tomate y aceite de ajo aromatizado.',
+    description:
+      'Masa madre crocante, salsa de tomate, mozzarella fundida, rodajas finas de tomate y aceite de ajo aromatizado.',
     price: 11600,
     tags: ['veggie'],
-    ingredients: ['Masa madre', 'Salsa', 'Mozzarella', 'Tomate fresco', 'Ajo aromatizado'],
+    ingredients: [
+      'Masa madre',
+      'Salsa',
+      'Mozzarella',
+      'Tomate fresco',
+      'Ajo aromatizado',
+    ],
   },
+
   {
     id: 'pizza-bocado',
     name: 'Pizza Bocado (Especial de la Casa)',
     categoryId: 'pizzas',
-    description: 'La creación insignia: masa madre, salsa pomodoro, mozzarella, queso cheddar fundido, panceta ahumada crocante y lluvia de cebolla crispy.',
+    description:
+      'La creación insignia: masa madre, salsa pomodoro, mozzarella, queso cheddar fundido, panceta ahumada crocante y lluvia de cebolla crispy.',
     price: 14500,
     tags: ['destacado', 'especial'],
-    ingredients: ['Masa madre', 'Mozzarella', 'Queso cheddar fundido', 'Panceta crocante', 'Cebolla crispy crujiente'],
+    ingredients: [
+      'Masa madre',
+      'Mozzarella',
+      'Queso cheddar fundido',
+      'Panceta crocante',
+      'Cebolla crispy crujiente',
+    ],
   },
+
   {
     id: 'pizza-rucula-jamon-crudo',
     name: 'Pizza de Rúcula & Jamón Crudo',
     categoryId: 'pizzas',
-    description: 'Masa madre, salsa, mozzarella, finas fetas de jamón crudo estacionado, abundante rúcula fresca, albahaca y aceitunas negras.',
+    description:
+      'Masa madre, salsa, mozzarella, finas fetas de jamón crudo estacionado, abundante rúcula fresca, albahaca y aceitunas negras.',
     price: 14800,
     tags: ['destacado', 'especial'],
-    ingredients: ['Masa madre', 'Mozzarella', 'Jamón crudo estacionado', 'Rúcula fresca', 'Albahaca fresca', 'Aceitunas negras'],
+    ingredients: [
+      'Masa madre',
+      'Mozzarella',
+      'Jamón crudo estacionado',
+      'Rúcula fresca',
+      'Albahaca fresca',
+      'Aceitunas negras',
+    ],
   },
 ];
+
