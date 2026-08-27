@@ -6,7 +6,6 @@ import {
   getDocs,
   getDoc,
   setDoc,
-  addDoc,
   updateDoc,
   deleteDoc,
   onSnapshot,
@@ -16,21 +15,23 @@ import {
 } from 'firebase/firestore';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBzsRupEaEtGrtvUlUU3nQYRm_EVnP6TDA",
-  authDomain: "restobar-874b6.firebaseapp.com",
-  projectId: "restobar-874b6",
-  storageBucket: "restobar-874b6.firebasestorage.app",
-  messagingSenderId: "675722652631",
-  appId: "1:675722652631:web:15ca2be413aebdc9e2f992",
-  measurementId: "G-CF5EM4QP0X",
+  apiKey: 'AIzaSyBzsRupEaEtGrtvUlUU3nQYRm_EVnP6TDA',
+  authDomain: 'restobar-874b6.firebaseapp.com',
+  projectId: 'restobar-874b6',
+  storageBucket: 'restobar-874b6.firebasestorage.app',
+  messagingSenderId: '675722652631',
+  appId: '1:675722652631:web:15ca2be413aebdc9e2f992',
+  measurementId: 'G-CF5EM4QP0X',
 };
 
-// Inicializar Firebase de forma segura
+// ============================================================
+// INICIALIZAR FIREBASE
+// ============================================================
+
 export const app = !getApps().length
   ? initializeApp(firebaseConfig)
   : getApp();
 
-// Firestore
 export const db: Firestore = getFirestore(app);
 
 // ============================================================
@@ -41,8 +42,15 @@ export const CATEGORIES_COLLECTION = 'categories';
 export const MENU_ITEMS_COLLECTION = 'menu_items';
 
 // Referencias a las colecciones
-export const categoriesRef = collection(db, CATEGORIES_COLLECTION);
-export const menuItemsRef = collection(db, MENU_ITEMS_COLLECTION);
+export const categoriesRef = collection(
+  db,
+  CATEGORIES_COLLECTION
+);
+
+export const menuItemsRef = collection(
+  db,
+  MENU_ITEMS_COLLECTION
+);
 
 // ============================================================
 // TIPOS
@@ -69,16 +77,19 @@ export interface FirebaseMenuItem {
   price: number;
   tags?: string[];
   ingredients?: string[];
+
   options?: {
     title: string;
     items: string[];
     required?: boolean;
   }[];
+
   variants?: {
     name: string;
     price: number;
     description?: string;
   }[];
+
   servesCount?: string;
   active?: boolean;
   order?: number;
@@ -114,7 +125,12 @@ export async function getCategory(
   id: string
 ): Promise<FirebaseCategory | null> {
   try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    const categoryRef = doc(
+      db,
+      CATEGORIES_COLLECTION,
+      id
+    );
+
     const snapshot = await getDoc(categoryRef);
 
     if (!snapshot.exists()) {
@@ -138,7 +154,10 @@ export async function createCategory(
   category: Omit<FirebaseCategory, 'id'>
 ): Promise<string | null> {
   try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION);
+    const categoryRef = doc(
+      db,
+      CATEGORIES_COLLECTION
+    );
 
     await setDoc(categoryRef, {
       ...category,
@@ -157,7 +176,7 @@ export async function createCategory(
 /**
  * Crear una categoría utilizando un ID específico.
  *
- * Esto sirve especialmente para importar las categorías
+ * Sirve especialmente para importar categorías
  * que ya existen en el código.
  */
 export async function createCategoryWithId(
@@ -165,7 +184,11 @@ export async function createCategoryWithId(
   category: Omit<FirebaseCategory, 'id'>
 ): Promise<boolean> {
   try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    const categoryRef = doc(
+      db,
+      CATEGORIES_COLLECTION,
+      id
+    );
 
     await setDoc(categoryRef, {
       ...category,
@@ -176,7 +199,11 @@ export async function createCategoryWithId(
 
     return true;
   } catch (error) {
-    console.error('Error creando categoría con ID:', error);
+    console.error(
+      'Error creando categoría con ID:',
+      error
+    );
+
     return false;
   }
 }
@@ -189,7 +216,11 @@ export async function updateCategory(
   data: Partial<Omit<FirebaseCategory, 'id'>>
 ): Promise<boolean> {
   try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    const categoryRef = doc(
+      db,
+      CATEGORIES_COLLECTION,
+      id
+    );
 
     await updateDoc(categoryRef, {
       ...data,
@@ -198,7 +229,11 @@ export async function updateCategory(
 
     return true;
   } catch (error) {
-    console.error('Error actualizando categoría:', error);
+    console.error(
+      'Error actualizando categoría:',
+      error
+    );
+
     return false;
   }
 }
@@ -206,15 +241,25 @@ export async function updateCategory(
 /**
  * Eliminar una categoría
  */
-export async function deleteCategory(id: string): Promise<boolean> {
+export async function deleteCategory(
+  id: string
+): Promise<boolean> {
   try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    const categoryRef = doc(
+      db,
+      CATEGORIES_COLLECTION,
+      id
+    );
 
     await deleteDoc(categoryRef);
 
     return true;
   } catch (error) {
-    console.error('Error eliminando categoría:', error);
+    console.error(
+      'Error eliminando categoría:',
+      error
+    );
+
     return false;
   }
 }
@@ -223,20 +268,27 @@ export async function deleteCategory(id: string): Promise<boolean> {
  * Escuchar cambios en tiempo real de las categorías
  */
 export function subscribeToCategories(
-  callback: (categories: FirebaseCategory[]) => void
+  callback: (
+    categories: FirebaseCategory[]
+  ) => void
 ): () => void {
   return onSnapshot(
     categoriesRef,
     (snapshot) => {
-      const categories = snapshot.docs.map((document) => ({
-        id: document.id,
-        ...document.data(),
-      })) as FirebaseCategory[];
+      const categories = snapshot.docs.map(
+        (document) => ({
+          id: document.id,
+          ...document.data(),
+        })
+      ) as FirebaseCategory[];
 
       callback(categories);
     },
     (error) => {
-      console.error('Error escuchando categorías:', error);
+      console.error(
+        'Error escuchando categorías:',
+        error
+      );
     }
   );
 }
@@ -248,7 +300,9 @@ export function subscribeToCategories(
 /**
  * Obtener todos los platos
  */
-export async function getMenuItems(): Promise<FirebaseMenuItem[]> {
+export async function getMenuItems(): Promise<
+  FirebaseMenuItem[]
+> {
   try {
     const snapshot = await getDocs(menuItemsRef);
 
@@ -257,7 +311,11 @@ export async function getMenuItems(): Promise<FirebaseMenuItem[]> {
       ...document.data(),
     })) as FirebaseMenuItem[];
   } catch (error) {
-    console.error('Error obteniendo platos:', error);
+    console.error(
+      'Error obteniendo platos:',
+      error
+    );
+
     return [];
   }
 }
@@ -269,7 +327,12 @@ export async function getMenuItem(
   id: string
 ): Promise<FirebaseMenuItem | null> {
   try {
-    const itemRef = doc(db, MENU_ITEMS_COLLECTION, id);
+    const itemRef = doc(
+      db,
+      MENU_ITEMS_COLLECTION,
+      id
+    );
+
     const snapshot = await getDoc(itemRef);
 
     if (!snapshot.exists()) {
@@ -281,7 +344,11 @@ export async function getMenuItem(
       ...snapshot.data(),
     } as FirebaseMenuItem;
   } catch (error) {
-    console.error('Error obteniendo plato:', error);
+    console.error(
+      'Error obteniendo plato:',
+      error
+    );
+
     return null;
   }
 }
@@ -293,7 +360,10 @@ export async function createMenuItem(
   item: Omit<FirebaseMenuItem, 'id'>
 ): Promise<string | null> {
   try {
-    const itemRef = doc(db, MENU_ITEMS_COLLECTION);
+    const itemRef = doc(
+      db,
+      MENU_ITEMS_COLLECTION
+    );
 
     await setDoc(itemRef, {
       ...item,
@@ -305,7 +375,11 @@ export async function createMenuItem(
 
     return itemRef.id;
   } catch (error) {
-    console.error('Error creando plato:', error);
+    console.error(
+      'Error creando plato:',
+      error
+    );
+
     return null;
   }
 }
@@ -313,16 +387,19 @@ export async function createMenuItem(
 /**
  * Crear un plato utilizando un ID específico.
  *
- * Esto permite pasar los platos actuales del archivo
- * MENU_ITEMS directamente a Firebase sin tener que
- * crearlos uno por uno.
+ * Permite importar los platos actuales del código
+ * directamente a Firebase.
  */
 export async function createMenuItemWithId(
   id: string,
   item: Omit<FirebaseMenuItem, 'id'>
 ): Promise<boolean> {
   try {
-    const itemRef = doc(db, MENU_ITEMS_COLLECTION, id);
+    const itemRef = doc(
+      db,
+      MENU_ITEMS_COLLECTION,
+      id
+    );
 
     await setDoc(itemRef, {
       ...item,
@@ -334,7 +411,11 @@ export async function createMenuItemWithId(
 
     return true;
   } catch (error) {
-    console.error('Error creando plato con ID:', error);
+    console.error(
+      'Error creando plato con ID:',
+      error
+    );
+
     return false;
   }
 }
@@ -347,13 +428,21 @@ export async function updateMenuItem(
   data: Partial<Omit<FirebaseMenuItem, 'id'>>
 ): Promise<boolean> {
   try {
-    const itemRef = doc(db, MENU_ITEMS_COLLECTION, id);
+    const itemRef = doc(
+      db,
+      MENU_ITEMS_COLLECTION,
+      id
+    );
 
     const updatedData = {
       ...data,
+
       ...(data.price !== undefined
-        ? { price: Number(data.price) || 0 }
+        ? {
+            price: Number(data.price) || 0,
+          }
         : {}),
+
       updatedAt: serverTimestamp(),
     };
 
@@ -361,7 +450,11 @@ export async function updateMenuItem(
 
     return true;
   } catch (error) {
-    console.error('Error actualizando plato:', error);
+    console.error(
+      'Error actualizando plato:',
+      error
+    );
+
     return false;
   }
 }
@@ -369,15 +462,25 @@ export async function updateMenuItem(
 /**
  * Eliminar un plato
  */
-export async function deleteMenuItem(id: string): Promise<boolean> {
+export async function deleteMenuItem(
+  id: string
+): Promise<boolean> {
   try {
-    const itemRef = doc(db, MENU_ITEMS_COLLECTION, id);
+    const itemRef = doc(
+      db,
+      MENU_ITEMS_COLLECTION,
+      id
+    );
 
     await deleteDoc(itemRef);
 
     return true;
   } catch (error) {
-    console.error('Error eliminando plato:', error);
+    console.error(
+      'Error eliminando plato:',
+      error
+    );
+
     return false;
   }
 }
@@ -386,20 +489,27 @@ export async function deleteMenuItem(id: string): Promise<boolean> {
  * Escuchar cambios en tiempo real de los platos
  */
 export function subscribeToMenuItems(
-  callback: (items: FirebaseMenuItem[]) => void
+  callback: (
+    items: FirebaseMenuItem[]
+  ) => void
 ): () => void {
   return onSnapshot(
     menuItemsRef,
     (snapshot) => {
-      const items = snapshot.docs.map((document) => ({
-        id: document.id,
-        ...document.data(),
-      })) as FirebaseMenuItem[];
+      const items = snapshot.docs.map(
+        (document) => ({
+          id: document.id,
+          ...document.data(),
+        })
+      ) as FirebaseMenuItem[];
 
       callback(items);
     },
     (error) => {
-      console.error('Error escuchando platos:', error);
+      console.error(
+        'Error escuchando platos:',
+        error
+      );
     }
   );
 }
@@ -411,7 +521,7 @@ export function subscribeToMenuItems(
 /**
  * Guarda varias categorías de una sola vez.
  *
- * La vamos a utilizar para pasar CATEGORIES del código
+ * Se utiliza para pasar CATEGORIES del código
  * a Firebase.
  */
 export async function saveCategoriesBatch(
@@ -434,7 +544,9 @@ export async function saveCategoriesBatch(
           active: category.active ?? true,
           updatedAt: serverTimestamp(),
         },
-        { merge: true }
+        {
+          merge: true,
+        }
       );
     });
 
@@ -442,7 +554,11 @@ export async function saveCategoriesBatch(
 
     return true;
   } catch (error) {
-    console.error('Error guardando categorías:', error);
+    console.error(
+      'Error guardando categorías:',
+      error
+    );
+
     return false;
   }
 }
@@ -450,7 +566,7 @@ export async function saveCategoriesBatch(
 /**
  * Guarda varios platos de una sola vez.
  *
- * La vamos a utilizar para pasar MENU_ITEMS del código
+ * Se utiliza para pasar MENU_ITEMS del código
  * a Firebase.
  */
 export async function saveMenuItemsBatch(
@@ -474,7 +590,9 @@ export async function saveMenuItemsBatch(
           active: item.active ?? true,
           updatedAt: serverTimestamp(),
         },
-        { merge: true }
+        {
+          merge: true,
+        }
       );
     });
 
@@ -482,7 +600,11 @@ export async function saveMenuItemsBatch(
 
     return true;
   } catch (error) {
-    console.error('Error guardando platos:', error);
+    console.error(
+      'Error guardando platos:',
+      error
+    );
+
     return false;
   }
 }
@@ -497,9 +619,16 @@ export const RESTAURANT_DOC_REF = doc(
   'info'
 );
 
-export async function getRestaurantInfo(): Promise<any | null> {
+/**
+ * Obtener información del restaurante
+ */
+export async function getRestaurantInfo(): Promise<
+  any | null
+> {
   try {
-    const snapshot = await getDoc(RESTAURANT_DOC_REF);
+    const snapshot = await getDoc(
+      RESTAURANT_DOC_REF
+    );
 
     if (!snapshot.exists()) {
       return null;
@@ -516,6 +645,9 @@ export async function getRestaurantInfo(): Promise<any | null> {
   }
 }
 
+/**
+ * Guardar información del restaurante
+ */
 export async function saveRestaurantInfo(
   data: Record<string, any>
 ): Promise<boolean> {
@@ -526,7 +658,9 @@ export async function saveRestaurantInfo(
         ...data,
         updatedAt: serverTimestamp(),
       },
-      { merge: true }
+      {
+        merge: true,
+      }
     );
 
     return true;
@@ -555,15 +689,16 @@ export interface CloudMenuPayload {
 }
 
 /**
- * Esta función queda para evitar romper código existente.
+ * Función de compatibilidad para evitar romper
+ * código existente.
  *
- * La nueva estructura usa:
+ * Nueva estructura:
  *
  * categories
  * menu_items
  * restaurant
  *
- * en lugar de guardar todo dentro de:
+ * en lugar de:
  *
  * restobar_data/menu_config
  */
@@ -590,7 +725,9 @@ export async function saveMenuToFirestore(
     }
 
     if (data.restaurantInfo) {
-      await saveRestaurantInfo(data.restaurantInfo);
+      await saveRestaurantInfo(
+        data.restaurantInfo
+      );
     }
 
     return true;
