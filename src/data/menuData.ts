@@ -4,14 +4,14 @@ export const RESTAURANT_INFO = {
   name: 'Punto Bocado',
   tagline: 'Desayunos • Viandas • Comidas • Café',
   description: 'Descubrí nuestra carta digital con platos elaborados artesanalmente, viandas del día, comidas caseras, desayunos y especialidades de café.',
-  address: 'Av. Principal 1240, Centro Gastronómico',
+  address: 'San Martín, 1756. Armstrong.',
   phone: '+54 9 11 5555-0199',
-  whatsappNumber: '5491155550199', // Clean for wa.me link
-  instagram: '@puntobocado',
+  whatsappNumber: '3471670003', // Clean for wa.me link
+  instagram: '@puntobocado.bar',
   hours: 'Mar a Dom de 08:00 a 01:00 hs',
   wifi: {
-    network: 'PuntoBocado_Guest',
-    password: 'puntobocadocliente',
+    network: 'Personal-228',
+    password: 'T5Tw5gbcWg',
   },
 };
 
