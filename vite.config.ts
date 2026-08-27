@@ -4,12 +4,19 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  const isProduction = mode === 'production';
+
   return {
     plugins: [
       react(),
       tailwindcss(),
+
       VitePWA({
+        // En desarrollo NO registramos el Service Worker.
+        // Esto evita que localhost quede mostrando una versión vieja.
+        disable: !isProduction,
+
         registerType: 'autoUpdate',
 
         includeAssets: [
@@ -113,8 +120,7 @@ export default defineConfig(() => {
               handler: 'StaleWhileRevalidate',
 
               options: {
-                cacheName:
-                  'unsplash-images-cache',
+                cacheName: 'unsplash-images-cache',
 
                 expiration: {
                   maxEntries: 60,
@@ -139,13 +145,33 @@ export default defineConfig(() => {
     },
 
     server: {
+      host: '0.0.0.0',
+      port: 3000,
+
       hmr:
-        process.env.DISABLE_HMR !== 'true',
+        process.env.DISABLE_HMR !== 'true'
+          ? {
+              host: 'localhost',
+              port: 3000,
+              protocol: 'ws',
+            }
+          : false,
 
       watch:
         process.env.DISABLE_HMR === 'true'
-          ? null
+          ? undefined
           : {},
+    },
+
+    preview: {
+      host: '0.0.0.0',
+      port: 3000,
+    },
+
+    build: {
+      // Solo controla cuándo Vite muestra el warning.
+      // No modifica el funcionamiento de la aplicación.
+      chunkSizeWarningLimit: 1200,
     },
   };
 });
