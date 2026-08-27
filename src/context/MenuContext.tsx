@@ -32,7 +32,11 @@ import {
   saveMenuItemsBatch,
 
   saveRestaurantInfo,
+
+  auth,
 } from '../lib/firebase';
+
+import { onAuthStateChanged } from 'firebase/auth';
 
 /*
  * ============================================================
@@ -116,9 +120,6 @@ const MenuContext = createContext<MenuContextType | undefined>(
  * ============================================================
  * CONVERSIONES FIREBASE -> TIPOS DE LA APP
  * ============================================================
- *
- * Firebase permite campos opcionales.
- * Nuestro frontend necesita algunos campos obligatorios.
  */
 
 const normalizeCategory = (category: any): Category => ({
@@ -294,6 +295,47 @@ export const MenuProvider: React.FC<{
 
   /*
    * ============================================================
+   * FIREBASE AUTH
+   * ============================================================
+   *
+   * IMPORTANTE:
+   *
+   * Firebase Authentication es quien determina si se puede
+   * escribir en Firestore.
+   *
+   * Los visitantes pueden leer.
+   * Los administradores autenticados pueden escribir.
+   * ============================================================
+   */
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(
+      auth,
+      (user) => {
+        if (user) {
+          setIsAdminLoggedInState(true);
+
+          sessionStorage.setItem(
+            STORAGE_KEYS.ADMIN_AUTH,
+            'true'
+          );
+        } else {
+          setIsAdminLoggedInState(false);
+
+          sessionStorage.removeItem(
+            STORAGE_KEYS.ADMIN_AUTH
+          );
+        }
+      }
+    );
+
+    return () => {
+      unsubscribeAuth();
+    };
+  }, []);
+
+  /*
+   * ============================================================
    * LOCAL STORAGE
    * ============================================================
    */
@@ -373,15 +415,16 @@ export const MenuProvider: React.FC<{
    * FIREBASE
    * ============================================================
    *
-   * IMPORTANTE:
-   * No creamos colecciones manualmente.
+   * Lectura:
+   * - Permitida para visitantes.
    *
-   * Firestore crea automáticamente:
+   * Escritura inicial:
+   * - SOLO si hay usuario autenticado.
    *
-   * categories
-   * menu_items
+   * Esto evita:
    *
-   * cuando se escriben los primeros documentos.
+   * FirebaseError:
+   * Missing or insufficient permissions.
    * ============================================================
    */
 
@@ -389,13 +432,84 @@ export const MenuProvider: React.FC<{
     let unsubscribeCategories: (() => void) | undefined;
     let unsubscribeMenuItems: (() => void) | undefined;
 
-    const initializeFirebase = async () => {
+    let unsubscribeAuth: (() => void) | undefined;
+
+    /*
+     * ============================================================
+     * SEED INICIAL
+     * ============================================================
+     *
+     * Solo se ejecuta cuando hay un administrador autenticado.
+     */
+
+    const seedInitialData = async () => {
+      const currentUser = auth.currentUser;
+
+      if (!currentUser) {
+        console.log(
+          'Firebase: visitante sin autenticación. No se ejecuta seed.'
+        );
+
+        return;
+      }
+
       try {
         setIsFirebaseSyncing(true);
 
+        const categoriesToSave =
+          INITIAL_CATEGORIES.map((category) => ({
+            ...category,
+            id: category.id,
+            active: true,
+          }));
+
+        await saveCategoriesBatch(
+          categoriesToSave
+        );
+
+        const itemsToSave =
+          INITIAL_MENU_ITEMS.map((item) => ({
+            ...item,
+            id: item.id,
+            price: Number(item.price) || 0,
+            active: true,
+          }));
+
+        await saveMenuItemsBatch(
+          itemsToSave
+        );
+
+        await saveRestaurantInfo(
+          INITIAL_RESTAURANT_INFO
+        );
+
+        setIsFirebaseConnected(true);
+        firebaseReadyRef.current = true;
+      } catch (error: unknown) {
+        console.error(
+          'Error cargando datos iniciales en Firebase:',
+          error
+        );
+
+        setIsFirebaseConnected(false);
+      } finally {
+        setIsFirebaseSyncing(false);
+      }
+    };
+
+    /*
+     * ============================================================
+     * INICIALIZAR
+     * ============================================================
+     */
+
+    const initializeFirebase = () => {
+      try {
         /*
-         * Suscripción a categorías.
+         * Categorías:
+         * cualquier visitante puede leer.
          */
+
         unsubscribeCategories =
           subscribeToCategories(
             (firebaseCategories) => {
@@ -414,8 +528,10 @@ export const MenuProvider: React.FC<{
           );
 
         /*
-         * Suscripción a platos.
+         * Platos:
+         * cualquier visitante puede leer.
          */
+
         unsubscribeMenuItems =
           subscribeToMenuItems(
             (firebaseItems) => {
@@ -434,15 +550,39 @@ export const MenuProvider: React.FC<{
           );
 
         /*
-         * Si todavía no hay datos en Firebase,
-         * cargamos los datos iniciales.
-         *
-         * Esto NO requiere crear nada manualmente.
+         * Auth:
+         * cuando Firebase confirma que hay usuario,
+         * recién ahí permitimos el seed inicial.
          */
-        await seedInitialData();
 
-        setIsFirebaseConnected(true);
-        firebaseReadyRef.current = true;
+        unsubscribeAuth =
+          onAuthStateChanged(
+            auth,
+            async (user) => {
+              if (user) {
+                setIsAdminLoggedInState(true);
+
+                sessionStorage.setItem(
+                  STORAGE_KEYS.ADMIN_AUTH,
+                  'true'
+                );
+
+                /*
+                 * Esperamos un momento para asegurarnos
+                 * de que Firebase Auth ya tiene la sesión
+                 * completamente disponible.
+                 */
+
+                await seedInitialData();
+              } else {
+                setIsAdminLoggedInState(false);
+
+                sessionStorage.removeItem(
+                  STORAGE_KEYS.ADMIN_AUTH
+                );
+              }
+            }
+          );
       } catch (error: unknown) {
         console.error(
           'No se pudo inicializar Firebase:',
@@ -450,53 +590,7 @@ export const MenuProvider: React.FC<{
         );
 
         setIsFirebaseConnected(false);
-      } finally {
-        setIsFirebaseSyncing(false);
       }
-    };
-
-    /*
-     * Función local para cargar datos iniciales.
-     *
-     * Se define dentro del efecto para utilizar exactamente
-     * los métodos disponibles actualmente en firebase.ts.
-     */
-    const seedInitialData = async () => {
-      /*
-       * Guardamos categorías.
-       */
-      const categoriesToSave =
-        INITIAL_CATEGORIES.map((category) => ({
-          ...category,
-          id: category.id,
-          active: true,
-        }));
-
-      await saveCategoriesBatch(
-        categoriesToSave
-      );
-
-      /*
-       * Guardamos platos.
-       */
-      const itemsToSave =
-        INITIAL_MENU_ITEMS.map((item) => ({
-          ...item,
-          id: item.id,
-          price: Number(item.price) || 0,
-          active: true,
-        }));
-
-      await saveMenuItemsBatch(
-        itemsToSave
-      );
-
-      /*
-       * Guardamos información del restaurante.
-       */
-      await saveRestaurantInfo(
-        INITIAL_RESTAURANT_INFO
-      );
     };
 
     initializeFirebase();
@@ -508,6 +602,10 @@ export const MenuProvider: React.FC<{
 
       if (unsubscribeMenuItems) {
         unsubscribeMenuItems();
+      }
+
+      if (unsubscribeAuth) {
+        unsubscribeAuth();
       }
     };
   }, []);
@@ -976,12 +1074,6 @@ export const MenuProvider: React.FC<{
    * ============================================================
    * SALSAS
    * ============================================================
-   *
-   * Actualmente firebase.ts no tiene funciones para guardar
-   * estas listas. Por eso permanecen en localStorage.
-   *
-   * No se crea ninguna colección adicional manualmente.
-   * ============================================================
    */
 
   const setPastaSauces = (
@@ -1166,6 +1258,15 @@ export const MenuProvider: React.FC<{
       );
     }
 
+    /*
+     * Solo sincronizamos con Firebase si hay
+     * un usuario autenticado.
+     */
+
+    if (!auth.currentUser) {
+      return;
+    }
+
     setIsFirebaseSyncing(true);
 
     Promise.all([
@@ -1315,8 +1416,16 @@ export const MenuProvider: React.FC<{
       }
 
       /*
-       * Firebase.
+       * Firebase solo si hay usuario autenticado.
        */
+
+      if (!auth.currentUser) {
+        console.warn(
+          'Importación local realizada. No se sincronizó con Firebase porque no hay un administrador autenticado.'
+        );
+
+        return true;
+      }
 
       setIsFirebaseSyncing(
         true
@@ -1379,6 +1488,20 @@ export const MenuProvider: React.FC<{
 
   const syncToCloudNow =
     async (): Promise<boolean> => {
+      /*
+       * Verificar autenticación antes de escribir.
+       */
+
+      if (!auth.currentUser) {
+        console.error(
+          'No se puede sincronizar: no hay un administrador autenticado.'
+        );
+
+        setIsFirebaseConnected(false);
+
+        return false;
+      }
+
       try {
         setIsFirebaseSyncing(
           true
