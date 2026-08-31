@@ -1,32 +1,35 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  X,
   Utensils,
   Layers,
   Sparkles,
   Store,
   Database,
-  ExternalLink,
   LogOut,
-  ShieldCheck,
   TrendingUp,
-  Tag,
-  DollarSign,
-  Coffee,
-  ChefHat,
-  ArrowLeft
+  ArrowLeft,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
+
 import { useMenu } from '../../context/MenuContext';
 import { PuntoBocadoLogo } from '../PuntoBocadoLogo';
+
 import { AdminItemsTab } from './AdminItemsTab';
 import { AdminCategoriesTab } from './AdminCategoriesTab';
 import { AdminExtrasTab } from './AdminExtrasTab';
 import { AdminRestaurantInfoTab } from './AdminRestaurantInfoTab';
 import { AdminBackupTab } from './AdminBackupTab';
+
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll';
 
-type AdminTab = 'items' | 'categories' | 'extras' | 'info' | 'backup';
+type AdminTab =
+  | 'items'
+  | 'categories'
+  | 'extras'
+  | 'info'
+  | 'backup';
 
 export const AdminDashboard: React.FC = () => {
   const {
@@ -35,36 +38,54 @@ export const AdminDashboard: React.FC = () => {
     restaurantInfo,
     pastaSauces,
     guarniciones,
+
     isAdminOpen,
     isFirebaseConnected,
     isFirebaseSyncing,
+
     setIsAdminOpen,
     setIsAdminLoggedIn,
+
     addItem,
     updateItem,
     deleteItem,
     duplicateItem,
     bulkUpdatePrices,
+
     addCategory,
     updateCategory,
     deleteCategory,
     reorderCategories,
+
     addPastaSauce,
     removePastaSauce,
+
     addGuarnicion,
     removeGuarnicion,
+
     updateRestaurantInfo,
+
     resetToDefaults,
     exportDataJSON,
     importDataJSON,
     syncToCloudNow,
   } = useMenu();
 
-  const [activeTab, setActiveTab] = useState<AdminTab>('items');
+  const [activeTab, setActiveTab] =
+    useState<AdminTab>('items');
+
+  const [statsOpen, setStatsOpen] =
+    useState(false);
 
   useLockBodyScroll(isAdminOpen);
 
-  if (!isAdminOpen) return null;
+  if (!isAdminOpen) {
+    return null;
+  }
+
+  // =========================================================
+  // ACCIONES
+  // =========================================================
 
   const handleLogout = () => {
     setIsAdminLoggedIn(false);
@@ -75,170 +96,956 @@ export const AdminDashboard: React.FC = () => {
     setIsAdminOpen(false);
   };
 
-  // Stats calculation
+  // =========================================================
+  // ESTADÍSTICAS
+  // =========================================================
+
   const totalItems = menuItems.length;
+
   const totalCategories = categories.length;
-  const avgPrice = totalItems > 0
-    ? Math.round(menuItems.reduce((acc, i) => acc + i.price, 0) / totalItems)
-    : 0;
+
+  const totalExtras =
+    pastaSauces.length + guarniciones.length;
+
+  const avgPrice =
+    totalItems > 0
+      ? Math.round(
+          menuItems.reduce(
+            (total, item) => total + item.price,
+            0
+          ) / totalItems
+        )
+      : 0;
+
+  const formattedAveragePrice =
+    avgPrice.toLocaleString('es-AR');
+
+  // =========================================================
+  // ESTILO DE LOS BOTONES
+  // =========================================================
+
+  const tabButtonClass = (
+    tab: AdminTab
+  ) => `
+    flex
+    h-9
+    min-w-0
+    flex-1
+    cursor-pointer
+    items-center
+    justify-center
+    gap-1
+    rounded-lg
+    border
+    px-1
+    text-[9px]
+    font-bold
+    leading-none
+    transition-all
+    duration-200
+    active:scale-[0.97]
+
+    sm:h-10
+    sm:gap-1.5
+    sm:rounded-xl
+    sm:px-2
+    sm:text-xs
+
+    ${
+      activeTab === tab
+        ? `
+          border-[#c65526]
+          bg-[#c65526]
+          text-white
+          shadow-sm
+        `
+        : `
+          border-[#ded8c9]
+          bg-white
+          text-[#706b61]
+          hover:border-[#c9c0ae]
+          hover:bg-[#fcfbf8]
+          hover:text-[#272624]
+        `
+    }
+  `;
+
+  // =========================================================
+  // RENDER
+  // =========================================================
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#f5f2e9] text-[#272624] flex flex-col overflow-hidden font-sans">
-      {/* Top Navbar */}
-      <header className="bg-white border-b border-[#ded8c9] px-3.5 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between shadow-2xs z-10 shrink-0">
-        {/* Left: Logo & Title */}
-        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0">
-            <PuntoBocadoLogo size="100%" showShadow={false} />
+    <div
+      className="
+        fixed
+        inset-0
+        z-[100]
+        flex
+        flex-col
+        overflow-hidden
+        bg-[#f5f2e9]
+        font-sans
+        text-[#272624]
+      "
+    >
+      {/* =====================================================
+          HEADER
+      ====================================================== */}
+
+      <header
+        className="
+          flex
+          h-[52px]
+          shrink-0
+          items-center
+          justify-between
+          border-b
+          border-[#ded8c9]
+          bg-white
+          px-2.5
+          shadow-sm
+
+          sm:h-[64px]
+          sm:px-6
+        "
+      >
+        {/* LOGO */}
+
+        <div
+          className="
+            flex
+            min-w-0
+            items-center
+            gap-2
+
+            sm:gap-3
+          "
+        >
+          <div
+            className="
+              h-7
+              w-7
+              shrink-0
+
+              sm:h-9
+              sm:w-9
+            "
+          >
+            <PuntoBocadoLogo
+              size="100%"
+              showShadow={false}
+            />
           </div>
+
           <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-sm sm:text-base text-[#272624] tracking-tight truncate">
+            <div
+              className="
+                flex
+                items-center
+                gap-1.5
+              "
+            >
+              <span
+                className="
+                  max-w-[120px]
+                  truncate
+                  text-xs
+                  font-extrabold
+                  tracking-tight
+
+                  sm:max-w-none
+                  sm:text-base
+                "
+              >
                 Punto Bocado
               </span>
-              <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-[#5b7b68]/15 text-[#5b7b68] text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider shrink-0">
+
+              <span
+                className="
+                  shrink-0
+                  rounded-md
+                  bg-[#5b7b68]/10
+                  px-1.5
+                  py-0.5
+                  text-[7px]
+                  font-extrabold
+                  uppercase
+                  tracking-wider
+                  text-[#5b7b68]
+
+                  sm:text-[9px]
+                "
+              >
                 Admin
               </span>
             </div>
-            <p className="text-[11px] text-[#706b61] hidden sm:block truncate">
-              Gestor integral de carta, precios, categorías y salón
+
+            <p
+              className="
+                hidden
+                text-[10px]
+                text-[#8a8479]
+
+                sm:block
+              "
+            >
+              Gestión de carta
             </p>
           </div>
         </div>
 
-        {/* Right: Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* ACCIONES */}
+
+        <div
+          className="
+            flex
+            shrink-0
+            items-center
+            gap-1
+          "
+        >
           <button
+            type="button"
             onClick={handleClose}
-            className="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-white border border-[#ded8c9] hover:bg-[#ede8db] text-xs font-bold text-[#272624] flex items-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-2xs"
-            title="Volver a la carta del cliente"
+            title="Volver a la carta"
+            className="
+              flex
+              h-8
+              cursor-pointer
+              items-center
+              justify-center
+              gap-1
+              rounded-lg
+              border
+              border-[#ded8c9]
+              bg-white
+              px-2
+              text-[9px]
+              font-bold
+              text-[#272624]
+              shadow-sm
+              transition-all
+              hover:bg-[#f5f2e9]
+              active:scale-95
+
+              sm:h-9
+              sm:gap-1.5
+              sm:rounded-xl
+              sm:px-3
+              sm:text-xs
+            "
           >
-            <ArrowLeft className="w-3.5 h-3.5 text-[#c65526]" />
-            <span className="hidden sm:inline">Ver Carta en Vivo</span>
-            <span className="sm:hidden">Ver Carta</span>
+            <ArrowLeft
+              className="
+                h-3.5
+                w-3.5
+                text-[#c65526]
+
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span>Ver Carta</span>
           </button>
 
           <button
+            type="button"
             onClick={handleLogout}
-            className="p-1.5 sm:p-2 rounded-xl text-[#8a8479] hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
-            title="Cerrar sesión de administrador"
+            title="Cerrar sesión"
             aria-label="Cerrar sesión"
+            className="
+              flex
+              h-8
+              w-8
+              cursor-pointer
+              items-center
+              justify-center
+              rounded-lg
+              text-[#8a8479]
+              transition-all
+              hover:bg-red-50
+              hover:text-red-700
+              active:scale-95
+
+              sm:h-9
+              sm:w-9
+              sm:rounded-xl
+            "
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="h-4 w-4" />
           </button>
         </div>
       </header>
 
-      {/* Main Container */}
-      <div className="flex-1 flex flex-col overflow-hidden max-w-6xl w-full mx-auto p-2.5 sm:p-6">
-        {/* Top Quick Stats Grid - 2 cols on mobile, 4 cols on desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5 mb-3 sm:mb-4 shrink-0">
-          <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#ded8c9] shadow-2xs flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#c65526]/10 text-[#c65526] flex items-center justify-center shrink-0">
-              <Utensils className="w-5 h-5" />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] sm:text-[11px] font-bold text-[#8a8479] uppercase block truncate">Platos</span>
-              <span className="text-lg sm:text-xl font-extrabold text-[#272624] leading-tight block">{totalItems}</span>
-            </div>
-          </div>
+      {/* =====================================================
+          CONTENIDO PRINCIPAL
+      ====================================================== */}
 
-          <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#ded8c9] shadow-2xs flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#5b7b68]/10 text-[#5b7b68] flex items-center justify-center shrink-0">
-              <Layers className="w-5 h-5" />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] sm:text-[11px] font-bold text-[#8a8479] uppercase block truncate">Categorías</span>
-              <span className="text-lg sm:text-xl font-extrabold text-[#272624] leading-tight block">{totalCategories}</span>
-            </div>
-          </div>
+      <main
+        className="
+          mx-auto
+          flex
+          w-full
+          max-w-6xl
+          flex-1
+          min-h-0
+          flex-col
+          overflow-hidden
+          px-2
+          py-2
 
-          <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#ded8c9] shadow-2xs flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 flex items-center justify-center shrink-0">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] sm:text-[11px] font-bold text-[#8a8479] uppercase block truncate">Salsas & Minutas</span>
-              <span className="text-lg sm:text-xl font-extrabold text-[#272624] leading-tight block">{pastaSauces.length + guarniciones.length}</span>
-            </div>
-          </div>
+          sm:px-6
+          sm:py-4
+        "
+      >
+        {/* ===================================================
+            RESUMEN
+        ==================================================== */}
 
-          <div className="bg-white p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-[#ded8c9] shadow-2xs flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center shrink-0">
-              <TrendingUp className="w-5 h-5" />
+        <div className="shrink-0">
+          <button
+            type="button"
+            onClick={() =>
+              setStatsOpen(
+                (previous) => !previous
+              )
+            }
+            aria-expanded={statsOpen}
+            className="
+              flex
+              h-9
+              w-full
+              cursor-pointer
+              items-center
+              justify-between
+              rounded-xl
+              border
+              border-[#ded8c9]
+              bg-white
+              px-2.5
+              shadow-sm
+              transition-all
+              hover:border-[#c9c0ae]
+              active:scale-[0.995]
+
+              sm:h-11
+              sm:rounded-2xl
+              sm:px-4
+            "
+          >
+            <div
+              className="
+                flex
+                min-w-0
+                items-center
+                gap-2
+              "
+            >
+              <div
+                className="
+                  flex
+                  h-6
+                  w-6
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-lg
+                  bg-[#c65526]/10
+                  text-[#c65526]
+
+                  sm:h-8
+                  sm:w-8
+                "
+              >
+                <TrendingUp
+                  className="
+                    h-3
+                    w-3
+
+                    sm:h-4
+                    sm:w-4
+                  "
+                />
+              </div>
+
+              <div className="min-w-0 text-left">
+                <span
+                  className="
+                    block
+                    text-[10px]
+                    font-extrabold
+                    leading-none
+
+                    sm:text-xs
+                  "
+                >
+                  Resumen del menú
+                </span>
+
+                {!statsOpen && (
+                  <span
+                    className="
+                      mt-0.5
+                      block
+                      truncate
+                      text-[8px]
+                      leading-none
+                      text-[#8a8479]
+
+                      sm:text-[10px]
+                    "
+                  >
+                    {totalItems} platos ·{' '}
+                    {totalCategories} categorías ·{' '}
+                    {totalExtras} extras · $
+                    {formattedAveragePrice}
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="min-w-0">
-              <span className="text-[10px] sm:text-[11px] font-bold text-[#8a8479] uppercase block truncate">Promedio</span>
-              <span className="text-lg sm:text-xl font-extrabold text-[#272624] leading-tight block">${avgPrice.toLocaleString('es-AR')}</span>
+
+            <div
+              className="
+                flex
+                shrink-0
+                items-center
+                gap-1
+                text-[#8a8479]
+              "
+            >
+              <span
+                className="
+                  hidden
+                  text-[9px]
+                  font-extrabold
+                  uppercase
+                  tracking-wider
+
+                  sm:block
+                "
+              >
+                {statsOpen
+                  ? 'Ocultar'
+                  : 'Mostrar'}
+              </span>
+
+              <div
+                className="
+                  flex
+                  h-6
+                  w-6
+                  items-center
+                  justify-center
+                  rounded-md
+                  bg-[#f5f2e9]
+
+                  sm:h-7
+                  sm:w-7
+                "
+              >
+                {statsOpen ? (
+                  <ChevronUp className="h-3.5 w-3.5" />
+                ) : (
+                  <ChevronDown className="h-3.5 w-3.5" />
+                )}
+              </div>
             </div>
-          </div>
+          </button>
         </div>
 
-        {/* Tab Navigation with touch-friendly pills (min-height 44px on mobile) */}
-        <div className="flex items-center gap-1.5 sm:gap-2 border-b border-[#ded8c9] mb-3 sm:mb-4 overflow-x-auto no-scrollbar pb-2 shrink-0">
-          <button
-            onClick={() => setActiveTab('items')}
-            className={`min-h-[44px] px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
-              activeTab === 'items'
-                ? 'bg-[#c65526] text-white shadow-xs'
-                : 'text-[#706b61] hover:text-[#272624] hover:bg-[#ede8db] bg-white/70 border border-[#ded8c9]/70'
-            }`}
-          >
-            <Utensils className="w-4 h-4" />
-            <span>Platos & Precios</span>
-          </button>
+        {/* ===================================================
+            ESTADÍSTICAS
+        ==================================================== */}
+
+        <AnimatePresence initial={false}>
+          {statsOpen && (
+            <motion.div
+              initial={{
+                height: 0,
+                opacity: 0,
+              }}
+              animate={{
+                height: 'auto',
+                opacity: 1,
+              }}
+              exit={{
+                height: 0,
+                opacity: 0,
+              }}
+              transition={{
+                duration: 0.18,
+              }}
+              className="
+                shrink-0
+                overflow-hidden
+              "
+            >
+              <div
+                className="
+                  mt-1.5
+                  grid
+                  grid-cols-4
+                  gap-1.5
+
+                  sm:mt-2
+                  sm:gap-2.5
+                "
+              >
+                {/* PLATOS */}
+
+                <div
+                  className="
+                    flex
+                    min-w-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    border
+                    border-[#ded8c9]
+                    bg-white
+                    px-1
+                    py-1.5
+                    shadow-sm
+
+                    sm:justify-start
+                    sm:gap-2
+                    sm:px-3
+                    sm:py-2.5
+                  "
+                >
+                  <div
+                    className="
+                      hidden
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-[#c65526]/10
+                      text-[#c65526]
+
+                      sm:flex
+                    "
+                  >
+                    <Utensils className="h-3.5 w-3.5" />
+                  </div>
+
+                  <div className="min-w-0 text-center sm:text-left">
+                    <span
+                      className="
+                        block
+                        truncate
+                        text-[7px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#8a8479]
+
+                        sm:text-[8px]
+                      "
+                    >
+                      Platos
+                    </span>
+
+                    <span
+                      className="
+                        block
+                        text-sm
+                        font-black
+
+                        sm:text-lg
+                      "
+                    >
+                      {totalItems}
+                    </span>
+                  </div>
+                </div>
+
+                {/* CATEGORÍAS */}
+
+                <div
+                  className="
+                    flex
+                    min-w-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    border
+                    border-[#ded8c9]
+                    bg-white
+                    px-1
+                    py-1.5
+                    shadow-sm
+
+                    sm:justify-start
+                    sm:gap-2
+                    sm:px-3
+                    sm:py-2.5
+                  "
+                >
+                  <div
+                    className="
+                      hidden
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-[#5b7b68]/10
+                      text-[#5b7b68]
+
+                      sm:flex
+                    "
+                  >
+                    <Layers className="h-3.5 w-3.5" />
+                  </div>
+
+                  <div className="min-w-0 text-center sm:text-left">
+                    <span
+                      className="
+                        block
+                        truncate
+                        text-[7px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#8a8479]
+
+                        sm:text-[8px]
+                      "
+                    >
+                      Categorías
+                    </span>
+
+                    <span
+                      className="
+                        block
+                        text-sm
+                        font-black
+
+                        sm:text-lg
+                      "
+                    >
+                      {totalCategories}
+                    </span>
+                  </div>
+                </div>
+
+                {/* EXTRAS */}
+
+                <div
+                  className="
+                    flex
+                    min-w-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    border
+                    border-[#ded8c9]
+                    bg-white
+                    px-1
+                    py-1.5
+                    shadow-sm
+
+                    sm:justify-start
+                    sm:gap-2
+                    sm:px-3
+                    sm:py-2.5
+                  "
+                >
+                  <div
+                    className="
+                      hidden
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-amber-500/10
+                      text-amber-700
+
+                      sm:flex
+                    "
+                  >
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </div>
+
+                  <div className="min-w-0 text-center sm:text-left">
+                    <span
+                      className="
+                        block
+                        truncate
+                        text-[7px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#8a8479]
+
+                        sm:text-[8px]
+                      "
+                    >
+                      Extras
+                    </span>
+
+                    <span
+                      className="
+                        block
+                        text-sm
+                        font-black
+
+                        sm:text-lg
+                      "
+                    >
+                      {totalExtras}
+                    </span>
+                  </div>
+                </div>
+
+                {/* PROMEDIO */}
+
+                <div
+                  className="
+                    flex
+                    min-w-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    border
+                    border-[#ded8c9]
+                    bg-white
+                    px-1
+                    py-1.5
+                    shadow-sm
+
+                    sm:justify-start
+                    sm:gap-2
+                    sm:px-3
+                    sm:py-2.5
+                  "
+                >
+                  <div
+                    className="
+                      hidden
+                      h-7
+                      w-7
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-emerald-500/10
+                      text-emerald-700
+
+                      sm:flex
+                    "
+                  >
+                    <TrendingUp className="h-3.5 w-3.5" />
+                  </div>
+
+                  <div className="min-w-0 text-center sm:text-left">
+                    <span
+                      className="
+                        block
+                        truncate
+                        text-[7px]
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-[#8a8479]
+
+                        sm:text-[8px]
+                      "
+                    >
+                      Promedio
+                    </span>
+
+                    <span
+                      className="
+                        block
+                        truncate
+                        text-xs
+                        font-black
+
+                        sm:text-lg
+                      "
+                    >
+                      ${formattedAveragePrice}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ===================================================
+            BOTONES DE SECCIONES
+        ==================================================== */}
+
+        <nav
+          className="
+            mt-2
+            flex
+            w-full
+            shrink-0
+            items-center
+            justify-center
+            gap-1
+
+            sm:mt-3
+            sm:gap-1.5
+          "
+        >
+          {/* PLATOS */}
 
           <button
-            onClick={() => setActiveTab('categories')}
-            className={`min-h-[44px] px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
-              activeTab === 'categories'
-                ? 'bg-[#c65526] text-white shadow-xs'
-                : 'text-[#706b61] hover:text-[#272624] hover:bg-[#ede8db] bg-white/70 border border-[#ded8c9]/70'
-            }`}
+            type="button"
+            onClick={() =>
+              setActiveTab('items')
+            }
+            className={tabButtonClass('items')}
           >
-            <Layers className="w-4 h-4" />
-            <span>Categorías</span>
+            <Utensils
+              className="
+                h-3
+                w-3
+                shrink-0
+
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span className="truncate">
+              Platos
+            </span>
           </button>
+
+          {/* CATEGORÍAS */}
 
           <button
-            onClick={() => setActiveTab('extras')}
-            className={`min-h-[44px] px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
-              activeTab === 'extras'
-                ? 'bg-[#c65526] text-white shadow-xs'
-                : 'text-[#706b61] hover:text-[#272624] hover:bg-[#ede8db] bg-white/70 border border-[#ded8c9]/70'
-            }`}
+            type="button"
+            onClick={() =>
+              setActiveTab('categories')
+            }
+            className={tabButtonClass(
+              'categories'
+            )}
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Salsas & Minutas</span>
+            <Layers
+              className="
+                h-3
+                w-3
+                shrink-0
+
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span className="truncate">
+              Categorías
+            </span>
           </button>
+
+          {/* EXTRAS */}
 
           <button
-            onClick={() => setActiveTab('info')}
-            className={`min-h-[44px] px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
-              activeTab === 'info'
-                ? 'bg-[#c65526] text-white shadow-xs'
-                : 'text-[#706b61] hover:text-[#272624] hover:bg-[#ede8db] bg-white/70 border border-[#ded8c9]/70'
-            }`}
+            type="button"
+            onClick={() =>
+              setActiveTab('extras')
+            }
+            className={tabButtonClass('extras')}
           >
-            <Store className="w-4 h-4" />
-            <span>Datos del Salón</span>
+            <Sparkles
+              className="
+                h-3
+                w-3
+                shrink-0
+
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span className="truncate">
+              Extras
+            </span>
           </button>
+
+          {/* SALÓN */}
 
           <button
-            onClick={() => setActiveTab('backup')}
-            className={`min-h-[44px] px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
-              activeTab === 'backup'
-                ? 'bg-[#c65526] text-white shadow-xs'
-                : 'text-[#706b61] hover:text-[#272624] hover:bg-[#ede8db] bg-white/70 border border-[#ded8c9]/70'
-            }`}
+            type="button"
+            onClick={() =>
+              setActiveTab('info')
+            }
+            className={tabButtonClass('info')}
           >
-            <Database className="w-4 h-4" />
-            <span>Copia / Respaldo</span>
-          </button>
-        </div>
+            <Store
+              className="
+                h-3
+                w-3
+                shrink-0
 
-        {/* Tab Content (Scrollable Container) */}
-        <div className="flex-1 overflow-y-auto pr-1 pb-6">
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span className="truncate">
+              Salón
+            </span>
+          </button>
+
+          {/* RESPALDO */}
+
+          <button
+            type="button"
+            onClick={() =>
+              setActiveTab('backup')
+            }
+            className={tabButtonClass('backup')}
+          >
+            <Database
+              className="
+                h-3
+                w-3
+                shrink-0
+
+                sm:h-4
+                sm:w-4
+              "
+            />
+
+            <span className="truncate">
+              Respaldo
+            </span>
+          </button>
+        </nav>
+
+        {/* ===================================================
+            CONTENIDO DE LA SECCIÓN
+        ==================================================== */}
+
+        <section
+          className="
+            min-h-0
+            flex-1
+            overflow-y-auto
+            overscroll-contain
+            pb-3
+            pt-2
+
+            sm:pb-5
+            sm:pt-3
+          "
+        >
+          {/* PLATOS */}
+
           {activeTab === 'items' && (
             <AdminItemsTab
               items={menuItems}
@@ -246,52 +1053,92 @@ export const AdminDashboard: React.FC = () => {
               onAddItem={addItem}
               onUpdateItem={updateItem}
               onDeleteItem={deleteItem}
-              onDuplicateItem={duplicateItem}
-              onBulkUpdatePrices={bulkUpdatePrices}
+              onDuplicateItem={
+                duplicateItem
+              }
+              onBulkUpdatePrices={
+                bulkUpdatePrices
+              }
             />
           )}
+
+          {/* CATEGORÍAS */}
 
           {activeTab === 'categories' && (
             <AdminCategoriesTab
               categories={categories}
               items={menuItems}
-              onAddCategory={addCategory}
-              onUpdateCategory={updateCategory}
-              onDeleteCategory={deleteCategory}
-              onReorderCategories={reorderCategories}
+              onAddCategory={
+                addCategory
+              }
+              onUpdateCategory={
+                updateCategory
+              }
+              onDeleteCategory={
+                deleteCategory
+              }
+              onReorderCategories={
+                reorderCategories
+              }
             />
           )}
+
+          {/* EXTRAS */}
 
           {activeTab === 'extras' && (
             <AdminExtrasTab
               pastaSauces={pastaSauces}
               guarniciones={guarniciones}
               onAddSauce={addPastaSauce}
-              onRemoveSauce={removePastaSauce}
-              onAddGuarnicion={addGuarnicion}
-              onRemoveGuarnicion={removeGuarnicion}
+              onRemoveSauce={
+                removePastaSauce
+              }
+              onAddGuarnicion={
+                addGuarnicion
+              }
+              onRemoveGuarnicion={
+                removeGuarnicion
+              }
             />
           )}
+
+          {/* SALÓN */}
 
           {activeTab === 'info' && (
             <AdminRestaurantInfoTab
               info={restaurantInfo}
-              onSave={updateRestaurantInfo}
+              onSave={
+                updateRestaurantInfo
+              }
             />
           )}
 
+          {/* RESPALDO */}
+
           {activeTab === 'backup' && (
             <AdminBackupTab
-              onExportJSON={exportDataJSON}
-              onImportJSON={importDataJSON}
-              onResetToDefaults={resetToDefaults}
-              onSyncCloud={syncToCloudNow}
-              isFirebaseConnected={isFirebaseConnected}
-              isFirebaseSyncing={isFirebaseSyncing}
+              onExportJSON={
+                exportDataJSON
+              }
+              onImportJSON={
+                importDataJSON
+              }
+              onResetToDefaults={
+                resetToDefaults
+              }
+              onSyncCloud={
+                syncToCloudNow
+              }
+              isFirebaseConnected={
+                isFirebaseConnected
+              }
+              isFirebaseSyncing={
+                isFirebaseSyncing
+              }
             />
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 };
