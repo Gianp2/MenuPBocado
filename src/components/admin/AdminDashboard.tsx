@@ -121,7 +121,7 @@ export const AdminDashboard: React.FC = () => {
     avgPrice.toLocaleString('es-AR');
 
   // =========================================================
-  // ESTILO DE LOS BOTONES
+  // ESTILO DE BOTONES
   // =========================================================
 
   const tabButtonClass = (
@@ -209,7 +209,7 @@ export const AdminDashboard: React.FC = () => {
           sm:px-6
         "
       >
-        {/* LOGO */}
+        {/* LOGO + NOMBRE */}
 
         <div
           className="
@@ -400,7 +400,7 @@ export const AdminDashboard: React.FC = () => {
         "
       >
         {/* ===================================================
-            RESUMEN
+            RESUMEN COMPACTO
         ==================================================== */}
 
         <div className="shrink-0">
@@ -434,6 +434,8 @@ export const AdminDashboard: React.FC = () => {
               sm:px-4
             "
           >
+            {/* IZQUIERDA */}
+
             <div
               className="
                 flex
@@ -504,6 +506,8 @@ export const AdminDashboard: React.FC = () => {
                 )}
               </div>
             </div>
+
+            {/* DERECHA */}
 
             <div
               className="
@@ -888,15 +892,21 @@ export const AdminDashboard: React.FC = () => {
         <nav
           className="
             mt-2
+            mb-1.5
             flex
             w-full
             shrink-0
             items-center
             justify-center
             gap-1
+            border-b
+            border-[#d8d1c2]
+            pb-2.5
 
             sm:mt-3
+            sm:mb-2
             sm:gap-1.5
+            sm:pb-3
           "
         >
           {/* PLATOS */}
@@ -1038,13 +1048,15 @@ export const AdminDashboard: React.FC = () => {
             overflow-y-auto
             overscroll-contain
             pb-3
-            pt-2
+            pt-1
 
             sm:pb-5
-            sm:pt-3
+            sm:pt-2
           "
         >
-          {/* PLATOS */}
+          {/* =================================================
+              PLATOS
+          ================================================== */}
 
           {activeTab === 'items' && (
             <AdminItemsTab
@@ -1062,7 +1074,9 @@ export const AdminDashboard: React.FC = () => {
             />
           )}
 
-          {/* CATEGORÍAS */}
+          {/* =================================================
+              CATEGORÍAS
+          ================================================== */}
 
           {activeTab === 'categories' && (
             <AdminCategoriesTab
@@ -1083,7 +1097,9 @@ export const AdminDashboard: React.FC = () => {
             />
           )}
 
-          {/* EXTRAS */}
+          {/* =================================================
+              EXTRAS
+          ================================================== */}
 
           {activeTab === 'extras' && (
             <AdminExtrasTab
@@ -1102,7 +1118,9 @@ export const AdminDashboard: React.FC = () => {
             />
           )}
 
-          {/* SALÓN */}
+          {/* =================================================
+              SALÓN
+          ================================================== */}
 
           {activeTab === 'info' && (
             <AdminRestaurantInfoTab
@@ -1113,7 +1131,9 @@ export const AdminDashboard: React.FC = () => {
             />
           )}
 
-          {/* RESPALDO */}
+          {/* =================================================
+              RESPALDO
+          ================================================== */}
 
           {activeTab === 'backup' && (
             <AdminBackupTab
